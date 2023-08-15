@@ -12,6 +12,8 @@ import FirebaseStorage
 
 @main
 struct InstagramCloneApp: App {
+    let photoLibraryService = PhotoLibraryService()
+    
     init() {
         FirebaseApp.configure()
         #if EMULATORS
@@ -43,6 +45,7 @@ struct InstagramCloneApp: App {
     var body: some Scene {
         WindowGroup {
             ContentView()
+                .environmentObject(photoLibraryService)
         }
     }
 }

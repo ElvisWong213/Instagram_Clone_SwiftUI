@@ -11,7 +11,10 @@
 		AA325E402A8A955200BDF1BC /* PostGrid.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA325E3F2A8A955200BDF1BC /* PostGrid.swift */; };
 		AA325E442A8AAC3000BDF1BC /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = AA325E432A8AAC3000BDF1BC /* FirebaseFirestore */; };
 		AA325E462A8AAC4500BDF1BC /* FirebaseStorage in Frameworks */ = {isa = PBXBuildFile; productRef = AA325E452A8AAC4500BDF1BC /* FirebaseStorage */; };
-		AA325E4B2A8ADDB200BDF1BC /* CreatePostView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA325E4A2A8ADDB200BDF1BC /* CreatePostView.swift */; };
+		AA325E4B2A8ADDB200BDF1BC /* NewPostView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA325E4A2A8ADDB200BDF1BC /* NewPostView.swift */; };
+		AA325E522A8BE28D00BDF1BC /* PhotoLibraryService.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA325E512A8BE28D00BDF1BC /* PhotoLibraryService.swift */; };
+		AA325E542A8BECD200BDF1BC /* PhotoThumbnailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA325E532A8BECD200BDF1BC /* PhotoThumbnailView.swift */; };
+		AA325E562A8C22F700BDF1BC /* NewPostDetail.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA325E552A8C22F700BDF1BC /* NewPostDetail.swift */; };
 		AA7F96702A891BDD000DD8C2 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA7F966F2A891BDD000DD8C2 /* HomeView.swift */; };
 		AA7F96762A8926A6000DD8C2 /* PostView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA7F96752A8926A6000DD8C2 /* PostView.swift */; };
 		AA7F96782A892AA4000DD8C2 /* MessageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA7F96772A892AA4000DD8C2 /* MessageView.swift */; };
@@ -38,7 +41,10 @@
 /* Begin PBXFileReference section */
 		AA325E3D2A8A82A700BDF1BC /* PageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PageView.swift; sourceTree = "<group>"; };
 		AA325E3F2A8A955200BDF1BC /* PostGrid.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostGrid.swift; sourceTree = "<group>"; };
-		AA325E4A2A8ADDB200BDF1BC /* CreatePostView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CreatePostView.swift; sourceTree = "<group>"; };
+		AA325E4A2A8ADDB200BDF1BC /* NewPostView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewPostView.swift; sourceTree = "<group>"; };
+		AA325E512A8BE28D00BDF1BC /* PhotoLibraryService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoLibraryService.swift; sourceTree = "<group>"; };
+		AA325E532A8BECD200BDF1BC /* PhotoThumbnailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhotoThumbnailView.swift; sourceTree = "<group>"; };
+		AA325E552A8C22F700BDF1BC /* NewPostDetail.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewPostDetail.swift; sourceTree = "<group>"; };
 		AA7F966F2A891BDD000DD8C2 /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
 		AA7F96752A8926A6000DD8C2 /* PostView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostView.swift; sourceTree = "<group>"; };
 		AA7F96772A892AA4000DD8C2 /* MessageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageView.swift; sourceTree = "<group>"; };
@@ -85,6 +91,14 @@
 			path = AccountManager;
 			sourceTree = "<group>";
 		};
+		AA325E502A8BE28400BDF1BC /* Service */ = {
+			isa = PBXGroup;
+			children = (
+				AA325E512A8BE28D00BDF1BC /* PhotoLibraryService.swift */,
+			);
+			path = Service;
+			sourceTree = "<group>";
+		};
 		AA7F96812A898067000DD8C2 /* Element */ = {
 			isa = PBXGroup;
 			children = (
@@ -92,6 +106,7 @@
 				AA7F96842A89B64B000DD8C2 /* CashedAsyncImage.swift */,
 				AA7F968C2A89CB54000DD8C2 /* FormatedImage.swift */,
 				AA325E3D2A8A82A700BDF1BC /* PageView.swift */,
+				AA325E532A8BECD200BDF1BC /* PhotoThumbnailView.swift */,
 			);
 			path = Element;
 			sourceTree = "<group>";
@@ -101,7 +116,8 @@
 			children = (
 				AA7F96752A8926A6000DD8C2 /* PostView.swift */,
 				AA7F96872A89C883000DD8C2 /* PostVM.swift */,
-				AA325E4A2A8ADDB200BDF1BC /* CreatePostView.swift */,
+				AA325E4A2A8ADDB200BDF1BC /* NewPostView.swift */,
+				AA325E552A8C22F700BDF1BC /* NewPostDetail.swift */,
 			);
 			path = Post;
 			sourceTree = "<group>";
@@ -145,6 +161,7 @@
 		AA91E8B42A86AAE300C901EE /* InstagramClone */ = {
 			isa = PBXGroup;
 			children = (
+				AA325E502A8BE28400BDF1BC /* Service */,
 				AA7F96812A898067000DD8C2 /* Element */,
 				AA91E8CB2A86E93F00C901EE /* View */,
 				AA91E8B52A86AAE300C901EE /* InstagramCloneApp.swift */,
@@ -265,22 +282,25 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AA325E542A8BECD200BDF1BC /* PhotoThumbnailView.swift in Sources */,
 				AA7F96762A8926A6000DD8C2 /* PostView.swift in Sources */,
 				AA7F96802A898028000DD8C2 /* ProfileView.swift in Sources */,
 				AA7F967A2A8933E4000DD8C2 /* CommentsView.swift in Sources */,
 				AAC11FCE2A87BD1D001669B4 /* SignUpView.swift in Sources */,
+				AA325E522A8BE28D00BDF1BC /* PhotoLibraryService.swift in Sources */,
 				AA7F968D2A89CB54000DD8C2 /* FormatedImage.swift in Sources */,
 				AA91E8C92A86E7E400C901EE /* LoginView.swift in Sources */,
 				AA7F968B2A89CA6C000DD8C2 /* SingleCommentView.swift in Sources */,
 				AA7F96782A892AA4000DD8C2 /* MessageView.swift in Sources */,
 				AA91E8B82A86AAE300C901EE /* ContentView.swift in Sources */,
+				AA325E562A8C22F700BDF1BC /* NewPostDetail.swift in Sources */,
 				AA325E402A8A955200BDF1BC /* PostGrid.swift in Sources */,
 				AA7F96832A898097000DD8C2 /* ProfilePicture.swift in Sources */,
 				AA7F96702A891BDD000DD8C2 /* HomeView.swift in Sources */,
 				AA7F96922A89D165000DD8C2 /* ChatRoom.swift in Sources */,
 				AA7F96852A89B64B000DD8C2 /* CashedAsyncImage.swift in Sources */,
 				AA7F96902A89CF14000DD8C2 /* Chat.swift in Sources */,
-				AA325E4B2A8ADDB200BDF1BC /* CreatePostView.swift in Sources */,
+				AA325E4B2A8ADDB200BDF1BC /* NewPostView.swift in Sources */,
 				AA91E8B62A86AAE300C901EE /* InstagramCloneApp.swift in Sources */,
 				AA325E3E2A8A82A700BDF1BC /* PageView.swift in Sources */,
 				AA7F96882A89C883000DD8C2 /* PostVM.swift in Sources */,
