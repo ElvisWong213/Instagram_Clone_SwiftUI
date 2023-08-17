@@ -6,30 +6,20 @@
 //
 
 import SwiftUI
-import FirebaseAuth
 
 struct ContentView: View {
     @State var pageSelection = 1
     @State var viewSelection = 1
     @State var isLock = false
-    
-    @State private var isLogin: Bool = false
+        
+    @EnvironmentObject var authService: AuthService
     
     var body: some View {
         VStack {
-            if isLogin {
+            if authService.userSession != nil {
                 content
             } else {
-                LoginView(isLogin: $isLogin)
-            }
-        }
-        .onAppear() {
-            Auth.auth().addStateDidChangeListener { auth, user in
-                if user != nil {
-                    isLogin = true
-                } else {
-                    isLogin = false
-                }
+                LoginView()
             }
         }
     }
@@ -54,5 +44,6 @@ struct ContentView: View {
 struct ContentView_Previews: PreviewProvider {
     static var previews: some View {
         ContentView()
+            .environmentObject(AuthService())
     }
 }

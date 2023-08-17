@@ -12,7 +12,8 @@ import FirebaseStorage
 
 @main
 struct InstagramCloneApp: App {
-    let photoLibraryService = PhotoLibraryService()
+    @StateObject var photoLibraryService = PhotoLibraryService()
+    @StateObject var authService = AuthService()
     
     init() {
         FirebaseApp.configure()
@@ -46,6 +47,7 @@ struct InstagramCloneApp: App {
         WindowGroup {
             ContentView()
                 .environmentObject(photoLibraryService)
+                .environmentObject(authService)
         }
     }
 }

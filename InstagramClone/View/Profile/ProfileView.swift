@@ -6,10 +6,11 @@
 //
 
 import SwiftUI
-import FirebaseAuth
 
 struct ProfileView: View {
     @State var selection = 1
+    @State var showSheet = false
+    @EnvironmentObject var authService: AuthService
     
     var body: some View {
         NavigationStack {
@@ -32,7 +33,7 @@ struct ProfileView: View {
                         }
                     }
                 }
-                Text("User Name")
+                Text(authService.currentUser?.username ?? "")
                 HStack {
                     Button {
                         
@@ -55,11 +56,7 @@ struct ProfileView: View {
                 .buttonStyle(.borderedProminent)
                 .frame(maxWidth: .infinity)
                 Button {
-                    do {
-                        try Auth.auth().signOut()
-                    } catch {
-                        print(error)
-                    }
+                    authService.signOut()
                 } label: {
                     Text("Logout")
                 }
@@ -81,12 +78,12 @@ struct ProfileView: View {
                 .tabViewStyle(.page(indexDisplayMode: .never))
             }
             .padding(.horizontal)
-            .navigationTitle("User Name")
+            .navigationTitle(authService.currentUser?.username ?? "")
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem {
                     Button {
-                        
+                        showSheet = true
                     } label: {
                         Image(systemName: "plus.app")
                     }
@@ -100,11 +97,15 @@ struct ProfileView: View {
                 }
             }
         }
+        .sheet(isPresented: $showSheet) {
+            NewPostView(showSheet: $showSheet)
+        }
     }
 }
 
 struct ProfileView_Previews: PreviewProvider {
     static var previews: some View {
         ProfileView()
+            .environmentObject(AuthService())
     }
 }

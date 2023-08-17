@@ -6,28 +6,21 @@
 //
 
 import SwiftUI
-import FirebaseAuth
 
 struct LoginView: View {
     @State private var email: String = ""
     @State private var password: String = ""
-    @Binding var isLogin: Bool
+    @EnvironmentObject var authService: AuthService
     
-    @State var errorMessage: Error? = nil
+    @State var errorMessage: String = ""
     @State var showAlert: Bool = false
     
     var body: some View {
         NavigationStack {
-            VStack {
+            VStack(spacing: 15) {
                 Spacer()
-                Group {
-                    TextField("Email", text: $email)
-                    SecureField("Password", text: $password)
-                }
-                .padding(.vertical, 5)
-                .padding(.horizontal, 20)
-                .background(Color.gray.opacity(0.2))
-                .cornerRadius(5)
+                InputField(title: "Email", input: $email, isPassword: false)
+                InputField(title: "Password", input: $password, isPassword: true)
                 HStack {
                     Spacer()
                     Button {
@@ -38,7 +31,9 @@ struct LoginView: View {
                     }
                 }
                 Button {
-                    login()
+                    Task {
+                        await login()
+                    }
                 } label: {
                     Text("Login")
                         .frame(maxWidth: .infinity)
@@ -46,12 +41,12 @@ struct LoginView: View {
                 .frame(maxWidth: .infinity)
                 .buttonStyle(.borderedProminent)
                 .cornerRadius(10)
-                .alert(errorMessage?.localizedDescription ?? "", isPresented: $showAlert, actions: {
+                .alert(errorMessage, isPresented: $showAlert, actions: {
                     Button {
-                        errorMessage = nil
+                        errorMessage = ""
                         showAlert = false
                     } label: {
-                        Text("Ok")
+                        Text("OK")
                     }
                 })
                 Spacer()
@@ -63,22 +58,19 @@ struct LoginView: View {
         }
     }
     
-    func login() {
-        Auth.auth().signIn(withEmail: email, password: password) { authResult, error in
-            if error != nil {
-                errorMessage = error
-                showAlert = true
-            } else {
-                isLogin = true
-                print("Login succes")
-            }
-            
+    func login() async {
+        do {
+            try await authService.signIn(email: email,password: password)
+        } catch {
+            errorMessage = error.localizedDescription
+            showAlert = true
         }
     }
 }
 
 struct LoginView_Previews: PreviewProvider {
     static var previews: some View {
-        LoginView(isLogin: .constant(false))
+        LoginView()
+            .environmentObject(AuthService())
     }
 }
