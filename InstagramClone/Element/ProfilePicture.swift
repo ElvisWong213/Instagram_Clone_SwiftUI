@@ -8,19 +8,26 @@
 import SwiftUI
 
 struct ProfilePicture: View {
-    @State var imageLocation: ImageSource
+    @State var imageLocation: ImageSource?
     @State var size: CGFloat
     
     var body: some View {
-        FormatedImage(imageLocation: imageLocation)
-            .scaledToFit()
-            .clipShape(Circle())
-            .frame(width: size, height: size)
+        ZStack {
+            if let imageLocation = imageLocation {
+                FormatedImage(imageLocation: imageLocation)
+                    .scaledToFit()
+            } else {
+                Rectangle()
+                    .background(.gray)
+            }
+        }
+        .clipShape(Circle())
+        .frame(width: size, height: size)
     }
 }
 
 struct ProfilePicture_Previews: PreviewProvider {
     static var previews: some View {
-        ProfilePicture(imageLocation: ImageSource.local(name: "Profile"), size: 400)
+        ProfilePicture(imageLocation: .local(name: "Profile"), size: 400)
     }
 }

@@ -7,11 +7,6 @@
 
 import SwiftUI
 
-enum ImageSource {
-    case local(name: String)
-    case remote(url: URL)
-}
-
 struct CashedAsyncImage<Content>: View where Content: View {
     private let source: ImageSource
     private let scale: CGFloat
@@ -29,7 +24,7 @@ struct CashedAsyncImage<Content>: View where Content: View {
         switch source {
         case .local(let name):
             content(.success(Image(name)))
-        case .remote(let url):
+        case .remote(let url?):
             if let cached = ImageCache[url] {
                 content(.success(cached))
             } else {
@@ -37,6 +32,8 @@ struct CashedAsyncImage<Content>: View where Content: View {
                     cacheAndRender(phase: phase, url: url)
                 }
             }
+        case .remote(url: .none):
+            content(.failure(ImageError.UrlEmpty))
         }
     }
     
@@ -68,13 +65,14 @@ fileprivate class ImageCache {
 
 struct CashedAsyncImage_Previews: PreviewProvider {
     static var previews: some View {
-        CashedAsyncImage(source: ImageSource.local(name: "Post")) { phase in
+        CashedAsyncImage(source: .local(name: "Post")) { phase in
             switch phase {
             case .empty:
                 ProgressView()
             case .success(let image):
                 image
             case .failure(let error):
+                Color.gray
                 fatalError(error.localizedDescription)
             @unknown default:
                 fatalError()

@@ -35,6 +35,7 @@ struct PHFetchResultCollection: RandomAccessCollection, Equatable {
 class PhotoLibraryService: ObservableObject {
     var authorizationStatus: PHAuthorizationStatus = .notDetermined
     var imageCachingManager = PHCachingImageManager()
+//    imageCachingManager.
     @Published var results = PHFetchResultCollection(fetchResult: .init())
     
     func requestAuthorization(handleError: ((AuthorizationError?) -> Void)? = nil) {

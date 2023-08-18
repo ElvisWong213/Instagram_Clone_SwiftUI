@@ -11,12 +11,13 @@ struct ProfileView: View {
     @State var selection = 1
     @State var showSheet = false
     @EnvironmentObject var authService: AuthService
+    @State var profilePicUrl: URL!
     
     var body: some View {
         NavigationStack {
             VStack(alignment: .leading) {
                 HStack {
-                    ProfilePicture(imageLocation: ImageSource.local(name: "Profile"), size: 100)
+                    ProfilePicture(imageLocation: .remote(url: profilePicUrl), size: 100)
                     Spacer()
                     HStack(spacing: 20) {
                         VStack {
@@ -33,10 +34,10 @@ struct ProfileView: View {
                         }
                     }
                 }
-                Text(authService.currentUser?.username ?? "")
+                Text(authService.currentUser?.username ?? "User")
                 HStack {
-                    Button {
-                        
+                    NavigationLink {
+                        EditProfileView()
                     } label: {
                         Text("Edit Profile")
                             .frame(maxWidth: .infinity)
@@ -78,7 +79,7 @@ struct ProfileView: View {
                 .tabViewStyle(.page(indexDisplayMode: .never))
             }
             .padding(.horizontal)
-            .navigationTitle(authService.currentUser?.username ?? "")
+            .navigationTitle(authService.currentUser?.username ?? "User")
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem {
@@ -100,6 +101,18 @@ struct ProfileView: View {
         .sheet(isPresented: $showSheet) {
             NewPostView(showSheet: $showSheet)
         }
+        .onAppear() {
+            getProfilePicUrl()
+        }
+    }
+}
+
+extension ProfileView {
+    func getProfilePicUrl() {
+        guard let url = authService.currentUser?.image else {
+            return
+        }
+        self.profilePicUrl = URL(string: url)
     }
 }
 

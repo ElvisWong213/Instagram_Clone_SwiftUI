@@ -42,13 +42,35 @@ class AuthService: ObservableObject {
     @MainActor
     func createUser(email: String, password: String, username: String) async throws {
         do {
+            if try await isUsernameUsed(username: username) {
+                throw UserError.UsernameUsed
+            }
             let result = try await Auth.auth().createUser(withEmail: email, password: password)
             self.userSession = result.user
-            try uploadData(id: result.user.uid, username: username, email: email)
+            try uploadUserData(user: .init(id: result.user.uid, username: username, email: password, gender: .None))
         } catch {
             print("Sign Up fail: \(error.localizedDescription)")
             throw error
         }
+    }
+    
+    func updateUserPassword(password: String) async throws {
+        if password != "" {
+            try await Auth.auth().currentUser?.updatePassword(to: password)
+        }
+    }
+    
+    func isUsernameUsed(username: String) async throws -> Bool {
+        do {
+            let doc = try await Firestore.firestore().collection("usernames").document(username).getDocument()
+            if doc.exists {
+                return true
+            }
+        } catch {
+            print("Fail to scan username: \(error.localizedDescription)")
+            throw error
+        }
+        return false
     }
     
     func signOut() {
@@ -78,9 +100,27 @@ class AuthService: ObservableObject {
         }
     }
     
-    func uploadData(id: String, username: String, email: String) throws {
-        let user = User(id: id, username: username, email: email)
+    @MainActor
+    func uploadUserData(user: User) throws {
         try Firestore.firestore().collection("users").document(user.id).setData(from: user)
+        let name = Username(id: user.id)
+        try Firestore.firestore().collection("usernames").document(user.username).setData(from: name)
         self.currentUser = user
+    }
+    
+    func updateUserData(user: User) async throws {
+        do {
+            guard let oldUsername = currentUser?.username else {
+                throw UserError.UnableGetUserData
+            }
+            if try await isUsernameUsed(username: user.username) && oldUsername != user.username {
+                throw UserError.UsernameUsed
+            }
+            try await Firestore.firestore().collection("usernames").document(oldUsername).delete()
+            try await uploadUserData(user: user)
+        } catch {
+            print("Update user info fail: \(error.localizedDescription)_")
+            throw error
+        }
     }
 }

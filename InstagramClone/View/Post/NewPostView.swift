@@ -12,7 +12,7 @@ struct NewPostView: View {
     @EnvironmentObject var photoLibraryService: PhotoLibraryService
     private let columns = Array(repeating: GridItem(.flexible()), count: 4)
     @State private var showError = false
-    @State private var selectedItem: String = ""
+    @State private var selectedPhoto: String = ""
     
     @State private var selectMulitple: Bool = false
     @Binding var showSheet: Bool
@@ -20,7 +20,7 @@ struct NewPostView: View {
     var body: some View {
         NavigationStack {
             VStack {
-                PhotoThumbnailView(assetLocalId: $selectedItem, isLowQuality: false)
+                PhotoThumbnailView(assetLocalId: $selectedPhoto, isLowQuality: false)
                 VStack {
                     HStack {
                         Spacer()
@@ -39,11 +39,11 @@ struct NewPostView: View {
                         LazyVGrid(columns: columns) {
                             ForEach(photoLibraryService.results, id: \.self) { asset in
                                 Button {
-                                    selectedItem = asset.localIdentifier
+                                    selectedPhoto = asset.localIdentifier
                                 } label: {
                                     ZStack {
                                         PhotoThumbnailView(assetLocalId: .constant(asset.localIdentifier), isLowQuality: true)
-                                        Color.white.opacity(selectedItem == asset.localIdentifier ? 0.5 : 0)
+                                        Color.white.opacity(selectedPhoto == asset.localIdentifier ? 0.5 : 0)
                                     }
                                 }
                             }
@@ -63,16 +63,19 @@ struct NewPostView: View {
                 }
                 ToolbarItem {
                     NavigationLink {
-                        NewPostDetail()
+                        NewPostDetail(selectedPhoto: $selectedPhoto)
                     } label: {
                         Text("Next")
                     }
-                    .disabled(selectedItem.isEmpty)
+                    .disabled(selectedPhoto.isEmpty)
                 }
             }
         }
         .onAppear() {
             requestForAuthorizationIfNecessary()
+        }
+        .alert("This app requires photo library access to show your photos", isPresented: $showError) {
+            
         }
     }
 }
