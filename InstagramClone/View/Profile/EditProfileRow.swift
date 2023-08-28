@@ -1,5 +1,5 @@
 //
-//  EditProfileRowView.swift
+//  EditProfileRow.swift
 //  InstagramClone
 //
 //  Created by Elvis on 18/08/2023.
@@ -15,11 +15,9 @@ struct EditProfileRow: View {
         HStack {
             Text(title)
                 .frame(width: 100, alignment: .leading)
-            VStack {
-                TextField(title, text: $text)
-                Divider()
-            }
+            TextField(title, text: $text)
         }
+        
     }
 }
 

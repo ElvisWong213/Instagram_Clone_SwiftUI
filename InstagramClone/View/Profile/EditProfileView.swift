@@ -25,15 +25,16 @@ struct EditProfileView: View {
         NavigationStack {
             VStack {
                 Button {
-                    
+
                 } label: {
                     ProfilePicture(imageLocation: image, size: 100)
                 }
+                .buttonStyle(.plain)
                 Form {
-                    TextField("Name", text: $name)
-                    TextField("Username", text: $username)
-                    TextField("Pronouns", text: $pronouns)
-                    TextField("Link", text: $link)
+                    EditProfileRow(title: "Name", text: $name)
+                    EditProfileRow(title: "Username", text: $username)
+                    EditProfileRow(title: "Pronouns", text: $pronouns)
+                    EditProfileRow(title: "Link", text: $link)
                     Picker(selection: $gender, label: Text("Gender")) {
                         ForEach(Gender.allCases) { option in
                             Text(String(describing: option))
@@ -91,8 +92,7 @@ extension EditProfileView {
             showAlert = true
             return
         }
-        let imageUrl = URL(string: user.image!)
-        self.image = ImageSource.remote(url: imageUrl)
+        self.image = ImageSource.remote(url: URL(string: user.image ?? ""))
         self.name = user.name ?? ""
         self.username = user.username
         self.pronouns = user.pronouns ?? ""
@@ -105,5 +105,6 @@ extension EditProfileView {
 struct EditProfileView_Previews: PreviewProvider {
     static var previews: some View {
         EditProfileView()
+            .environmentObject(AuthService())
     }
 }
