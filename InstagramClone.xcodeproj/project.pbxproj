@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		AA217B082A90068500ADBE07 /* EditProfileRow.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA217B072A90068500ADBE07 /* EditProfileRow.swift */; };
 		AA325E3E2A8A82A700BDF1BC /* PageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA325E3D2A8A82A700BDF1BC /* PageView.swift */; };
 		AA325E402A8A955200BDF1BC /* PostGrid.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA325E3F2A8A955200BDF1BC /* PostGrid.swift */; };
 		AA325E442A8AAC3000BDF1BC /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = AA325E432A8AAC3000BDF1BC /* FirebaseFirestore */; };
@@ -51,6 +52,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		AA217B072A90068500ADBE07 /* EditProfileRow.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditProfileRow.swift; sourceTree = "<group>"; };
 		AA325E3D2A8A82A700BDF1BC /* PageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PageView.swift; sourceTree = "<group>"; };
 		AA325E3F2A8A955200BDF1BC /* PostGrid.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostGrid.swift; sourceTree = "<group>"; };
 		AA325E4A2A8ADDB200BDF1BC /* NewPostView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NewPostView.swift; sourceTree = "<group>"; };
@@ -143,6 +145,7 @@
 			children = (
 				AA7F967F2A898028000DD8C2 /* ProfileView.swift */,
 				AA3DE8112A8EC74300B070B5 /* EditProfileView.swift */,
+				AA217B072A90068500ADBE07 /* EditProfileRow.swift */,
 			);
 			path = Profile;
 			sourceTree = "<group>";
@@ -349,6 +352,7 @@
 				AA7F967A2A8933E4000DD8C2 /* CommentsView.swift in Sources */,
 				AA3DE81B2A8F052E00B070B5 /* UserError.swift in Sources */,
 				AAC11FCE2A87BD1D001669B4 /* SignUpView.swift in Sources */,
+				AA217B082A90068500ADBE07 /* EditProfileRow.swift in Sources */,
 				AA3DE8142A8EF86700B070B5 /* Gender.swift in Sources */,
 				AA325E522A8BE28D00BDF1BC /* PhotoLibraryService.swift in Sources */,
 				AA3DE8032A8D75DC00B070B5 /* AuthService.swift in Sources */,

@@ -15,7 +15,7 @@ struct PostGrid: View {
             LazyVGrid(columns: colums) {
                 ForEach(0..<10, id: \.self) { item in
                     NavigationLink {
-                        PostView()
+                        PostView(user: User.MOCK[0], postData: Post.MOCK[0])
                     } label: {
                         FormatedImage(imageLocation: .local(name: "Post"))
                             .scaledToFit()

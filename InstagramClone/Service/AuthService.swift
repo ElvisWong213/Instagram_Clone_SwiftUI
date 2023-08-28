@@ -47,7 +47,7 @@ class AuthService: ObservableObject {
             }
             let result = try await Auth.auth().createUser(withEmail: email, password: password)
             self.userSession = result.user
-            try uploadUserData(user: .init(id: result.user.uid, username: username, email: password, gender: .None))
+            try uploadUserData(user: .init(id: result.user.uid, username: username, email: email, image: "", gender: .None))
         } catch {
             print("Sign Up fail: \(error.localizedDescription)")
             throw error
@@ -87,7 +87,7 @@ class AuthService: ObservableObject {
     
     func fetchUserData() async throws {
         guard let userID = userSession?.uid else {
-            return
+            throw UserError.UnableGetUserData
         }
         do {
             let doc = try await Firestore.firestore().collection("users").document(userID).getDocument()
@@ -97,6 +97,7 @@ class AuthService: ObservableObject {
             }
         } catch {
             print("Fetch user fail: \(error.localizedDescription)")
+            throw error
         }
     }
     

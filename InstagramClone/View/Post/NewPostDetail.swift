@@ -10,7 +10,7 @@ import Photos
 
 struct NewPostDetail: View {
     private let photoLibraryService = PhotoLibraryService()
-    @Environment(\.dismiss) var dismiss
+    @Binding var showSheet: Bool
 
     @State private var caption: String = ""
     @Binding var selectedPhoto: String
@@ -46,7 +46,7 @@ struct NewPostDetail: View {
                     Button {
                         uploadPost()
                         if !showAlert {
-                            dismiss()
+                            showSheet = false
                         }
                     } label: {
                         Text("Share")
@@ -92,6 +92,6 @@ extension NewPostDetail {
 
 struct NewPostDetail_Previews: PreviewProvider {
     static var previews: some View {
-        NewPostDetail(selectedPhoto: .constant("Post"))
+        NewPostDetail(showSheet: .constant(true), selectedPhoto: .constant("Post"))
     }
 }

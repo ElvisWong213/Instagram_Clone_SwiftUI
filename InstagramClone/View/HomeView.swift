@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct HomeView: View {
+    @State var posts: [Post] = []
     @Binding var viewSelection: Int
     @State var previousSelection: Int = 1
     @State var showSheet = false
@@ -16,9 +17,9 @@ struct HomeView: View {
         TabView(selection: $viewSelection) {
             NavigationStack {
                 ScrollView {
-                    VStack {
-                        ForEach(0..<10) { _ in
-                            PostView()
+                    LazyVStack {
+                        ForEach(posts) { post in
+                            PostView(postData: post)
                         }
                     }
                 }
@@ -68,6 +69,9 @@ struct HomeView: View {
             viewSelection = previousSelection
         }) {
             NewPostView(showSheet: $showSheet)
+        }
+        .task {
+            posts = await PostService().fetchPosts()
         }
     }
 }

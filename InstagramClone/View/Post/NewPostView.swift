@@ -63,7 +63,7 @@ struct NewPostView: View {
                 }
                 ToolbarItem {
                     NavigationLink {
-                        NewPostDetail(selectedPhoto: $selectedPhoto)
+                        NewPostDetail(showSheet: $showSheet, selectedPhoto: $selectedPhoto)
                     } label: {
                         Text("Next")
                     }

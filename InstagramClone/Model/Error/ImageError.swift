@@ -8,12 +8,14 @@
 import Foundation
 
 enum ImageError: Error, LocalizedError {
-    case UrlEmpty
+    case UrlEmpty, ConvertFail
     
     var errorDescription: String? {
         switch self {
         case .UrlEmpty:
             return "Url is empty"
+        case .ConvertFail:
+            return "Image convert to jpeg fail"
         }
     }
 }
