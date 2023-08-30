@@ -10,7 +10,7 @@ import FirebaseFirestore
 
 struct PostView: View {
     @State var user: User?
-    var postData: Post
+    @Binding var postData: Post
     
     @State var selectedImage = 0
     
@@ -88,9 +88,10 @@ struct PostView: View {
                 }
                 .padding(.horizontal)
             }
+            Spacer()
         }
         .sheet(isPresented: $showComment) {
-            CommentsView()
+            CommentsView(post: $postData)
                 .presentationDetents([.large, .medium])
                 .presentationDragIndicator(.visible)
         }
@@ -104,8 +105,10 @@ extension PostView {
     func fetchUserData() async {
         let userID = postData.createrID
         do {
+            if user == nil {
             let doc = try await Firestore.firestore().collection("users").document(userID).getDocument()
-            user = try doc.data(as: User.self)
+                user = try doc.data(as: User.self)
+            }
         } catch {
             print("Fetch user fail: \(error.localizedDescription)")
         }
@@ -114,6 +117,6 @@ extension PostView {
 
 struct PostView_Previews: PreviewProvider {
     static var previews: some View {
-        PostView(user: User.MOCK[0], postData: Post.MOCK[0])
+        PostView(user: User.MOCK[0], postData: .constant(Post.MOCK[0]))
     }
 }

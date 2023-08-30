@@ -6,12 +6,15 @@
 //
 
 import SwiftUI
+//import FirebaseFirestoreSwift
+import FirebaseFirestore
 
 struct SingleCommentView: View {
-    @State var userIcon: ImageSource = .local(name: "Profile")
-    @State var userName: String = "User Name"
-    @State var commentDate: String = "date"
-    @State var comment: String = "Comment"
+    @State var userIcon: ImageSource?
+    @State var userName: String?
+    var userID: String
+    var commentDate: String
+    var message: String
     @State var isLike: Bool = false
     
     var body: some View {
@@ -19,11 +22,11 @@ struct SingleCommentView: View {
             ProfilePicture(imageLocation: userIcon, size: 50)
             VStack(alignment: .leading) {
                 HStack {
-                    Text(userName)
+                    Text(userName ?? "")
                     Text(commentDate)
                         .font(.footnote)
                 }
-                Text(comment)
+                Text(message)
                 Button {
                     
                 } label: {
@@ -37,11 +40,27 @@ struct SingleCommentView: View {
                 Image(systemName: isLike ? "heart.fill" : "heart")
             }
         }
+        .task {
+            await fetchUserInfo()
+        }
+    }
+}
+
+extension SingleCommentView {
+    func fetchUserInfo() async {
+        do {
+            let doc = try await Firestore.firestore().collection("users").document(userID).getDocument()
+            let userdata = try doc.data(as: User.self)
+            userIcon = .remote(url: URL(string: userdata.image ?? ""))
+            userName = userdata.username
+        } catch {
+            print("Fetch user fail: \(error.localizedDescription)")
+        }
     }
 }
 
 struct SingleCommentView_Previews: PreviewProvider {
     static var previews: some View {
-        SingleCommentView()
+        SingleCommentView(userIcon: .local(name: "Profile"), userName: "User Name", userID: "", commentDate: Date().description, message: "Comment")
     }
 }

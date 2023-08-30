@@ -10,24 +10,32 @@ import SwiftUI
 struct PostGrid: View {
     let colums = [GridItem(.flexible()), GridItem(.flexible()), GridItem(.flexible())]
     
+    @State var posts: [Post] = []
+    
     var body: some View {
         ScrollView {
             LazyVGrid(columns: colums) {
-                ForEach(0..<10, id: \.self) { item in
+                ForEach($posts) { $post in
                     NavigationLink {
-                        PostView(user: User.MOCK[0], postData: Post.MOCK[0])
+                        PostView(postData: $post)
                     } label: {
-                        FormatedImage(imageLocation: .local(name: "Post"))
+                        FormatedImage(imageLocation: .remote(url: URL(string: post.imagesURL[0])))
                             .scaledToFit()
                     }
                 }
             }
+        }
+        .refreshable {
+            posts = await PostService().fetchPosts()
+        }
+        .task {
+            posts = await PostService().fetchPosts()
         }
     }
 }
 
 struct PostGrid_Previews: PreviewProvider {
     static var previews: some View {
-        PostGrid()
+        PostGrid(posts: Post.MOCK)
     }
 }

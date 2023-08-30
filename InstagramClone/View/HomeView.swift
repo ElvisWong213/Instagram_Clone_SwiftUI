@@ -18,10 +18,13 @@ struct HomeView: View {
             NavigationStack {
                 ScrollView {
                     LazyVStack {
-                        ForEach(posts) { post in
+                        ForEach($posts) { post in
                             PostView(postData: post)
                         }
                     }
+                }
+                .refreshable {
+                    posts = await PostService().fetchPosts()
                 }
                 .navigationTitle("Home")
                 .navigationBarTitleDisplayMode(.inline)

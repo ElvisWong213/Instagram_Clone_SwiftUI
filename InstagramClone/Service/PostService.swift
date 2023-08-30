@@ -59,4 +59,26 @@ class PostService{
         }
         return posts
     }
+    
+    func constructComment(comment: String) throws -> Comment {
+        guard let userID = authService.userSession?.uid else {
+            print("Fail to construct comment")
+            throw UserError.UnableGetUserData
+        }
+        return Comment(userID: userID, message: comment, date: Timestamp())
+    }
+    
+    func leaveComment(comment: String, post: Post) throws -> Post {
+        let docRef = Firestore.firestore().collection("posts").document(post.id)
+        let newComment = try constructComment(comment: comment)
+        var bufferPost = post
+        bufferPost.comments.insert(newComment, at: bufferPost.comments.count)
+        let bufferNewComment = try Firestore.Encoder().encode(newComment)
+        docRef.updateData(["comments" : FieldValue.arrayUnion([bufferNewComment])]) { error in
+            if let error = error {
+                print("Unable to update data: \(error)")
+            }
+        }
+        return bufferPost
+    }
 }
