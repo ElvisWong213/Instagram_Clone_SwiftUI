@@ -34,7 +34,7 @@ struct ProfileView: View {
                         }
                     }
                 }
-                Text(authService.currentUser?.username ?? "User")
+                Text(authService.currentUser?.name ?? "")
                 HStack {
                     NavigationLink {
                         EditProfileView()
@@ -79,7 +79,7 @@ struct ProfileView: View {
                 .tabViewStyle(.page(indexDisplayMode: .never))
             }
             .padding(.horizontal)
-            .navigationTitle(authService.currentUser?.username ?? "User")
+            .navigationTitle(authService.currentUser?.username ?? "")
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem {

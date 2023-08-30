@@ -18,6 +18,8 @@ struct PostView: View {
     @State var isBookmark = false
     @State var showComment = false
     
+    @State var showAlert = false
+    
     var body: some View {
         VStack(alignment: .leading) {
             if let user = user {
@@ -45,7 +47,16 @@ struct PostView: View {
                 .scaledToFit()
                 HStack {
                     Button {
-                        isLike.toggle()
+                        do {
+                            if isLike {
+                                postData = try PostService().removeLike(post: postData)
+                            } else {
+                                postData = try PostService().leaveLike(post: postData)
+                            }
+                            isLike.toggle()
+                        } catch {
+                            showAlert = true
+                        }
                     } label: {
                         Image(systemName: isLike ? "heart.fill" : "heart")
                             .foregroundColor(.red)
@@ -70,7 +81,11 @@ struct PostView: View {
                 .font(.title2)
                 .padding(.horizontal)
                 VStack(alignment: .leading, spacing: 5) {
-                    Text("\(postData.likes.count) Likes")
+                    Button {
+                        
+                    } label: {
+                        Text("\(postData.likes.count) Likes")
+                    }
                     Button {
                         
                     } label: {
@@ -90,6 +105,7 @@ struct PostView: View {
             }
             Spacer()
         }
+        .alert("Unable to like or remove like from the post", isPresented: $showAlert) {}
         .sheet(isPresented: $showComment) {
             CommentsView(post: $postData)
                 .presentationDetents([.large, .medium])
@@ -97,6 +113,7 @@ struct PostView: View {
         }
         .task {
             await fetchUserData()
+            getPostIsLiked()
         }
     }
 }
@@ -111,6 +128,16 @@ extension PostView {
             }
         } catch {
             print("Fetch user fail: \(error.localizedDescription)")
+        }
+    }
+    
+    func getPostIsLiked() {
+        guard let userId = AuthService.shared.userSession?.uid else {
+            print("Unable to get user info")
+            return
+        }
+        if postData.likes.contains(userId) {
+            isLike = true
         }
     }
 }

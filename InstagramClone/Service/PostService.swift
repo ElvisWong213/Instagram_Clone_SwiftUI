@@ -60,7 +60,7 @@ class PostService{
         return posts
     }
     
-    func constructComment(comment: String) throws -> Comment {
+    private func constructComment(comment: String) throws -> Comment {
         guard let userID = authService.userSession?.uid else {
             print("Fail to construct comment")
             throw UserError.UnableGetUserData
@@ -69,16 +69,49 @@ class PostService{
     }
     
     func leaveComment(comment: String, post: Post) throws -> Post {
-        let docRef = Firestore.firestore().collection("posts").document(post.id)
         let newComment = try constructComment(comment: comment)
         var bufferPost = post
         bufferPost.comments.insert(newComment, at: bufferPost.comments.count)
         let bufferNewComment = try Firestore.Encoder().encode(newComment)
+        let docRef = Firestore.firestore().collection("posts").document(post.id)
         docRef.updateData(["comments" : FieldValue.arrayUnion([bufferNewComment])]) { error in
             if let error = error {
                 print("Unable to update data: \(error)")
             }
         }
+        return bufferPost
+    }
+    
+    func leaveLike(post: Post) throws -> Post {
+        guard let userID = authService.userSession?.uid else {
+            throw UserError.UnableGetUserData
+        }
+        let docRef = Firestore.firestore().collection("posts").document(post.id)
+        docRef.updateData(["likes" : FieldValue.arrayUnion([userID])]) { error in
+            if let error = error {
+                print("Unable to update data: \(error)")
+            }
+        }
+        var bufferPost = post
+        bufferPost.likes.insert(userID, at: bufferPost.likes.count)
+        return bufferPost
+    }
+    
+    func removeLike(post: Post) throws -> Post {
+        guard let userID = authService.userSession?.uid else {
+            throw UserError.UnableGetUserData
+        }
+        let docRef = Firestore.firestore().collection("posts").document(post.id)
+        docRef.updateData(["likes" : FieldValue.arrayRemove([userID])]) { error in
+            if let error = error {
+                print("Unable to update data: \(error)")
+            }
+        }
+        var bufferPost = post
+        guard let elementIndex = bufferPost.likes.firstIndex(of: userID) else {
+            return bufferPost
+        }
+        bufferPost.likes.remove(at: elementIndex)
         return bufferPost
     }
 }
