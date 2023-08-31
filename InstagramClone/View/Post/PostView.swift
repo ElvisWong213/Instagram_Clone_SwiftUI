@@ -6,23 +6,14 @@
 //
 
 import SwiftUI
-import FirebaseFirestore
 
 struct PostView: View {
-    @State var user: User?
     @Binding var postData: Post
-    
-    @State var selectedImage = 0
-    
-    @State var isLike = false
-    @State var isBookmark = false
-    @State var showComment = false
-    
-    @State var showAlert = false
+    @StateObject var vm = PostVM()
     
     var body: some View {
         VStack(alignment: .leading) {
-            if let user = user {
+            if let user = vm.user {
                 HStack {
                     ProfilePicture(imageLocation: .remote(url: URL(string: user.image ?? "")), size: 30)
                     Text("\(user.username)")
@@ -35,7 +26,7 @@ struct PostView: View {
                 }
                 .padding(.horizontal)
                 GeometryReader { gr in
-                    TabView(selection: $selectedImage) {
+                    TabView(selection: $vm.selectedImage) {
                         ForEach(postData.imagesURL.indices, id: \.self) { index in
                             FormatedImage(imageLocation: .remote(url: URL(string: postData.imagesURL[index])))
                                 .tag(index)
@@ -47,22 +38,13 @@ struct PostView: View {
                 .scaledToFit()
                 HStack {
                     Button {
-                        do {
-                            if isLike {
-                                postData = try PostService().removeLike(post: postData)
-                            } else {
-                                postData = try PostService().leaveLike(post: postData)
-                            }
-                            isLike.toggle()
-                        } catch {
-                            showAlert = true
-                        }
+                        postData = vm.likePost(postData: postData)
                     } label: {
-                        Image(systemName: isLike ? "heart.fill" : "heart")
+                        Image(systemName: vm.isLike ? "heart.fill" : "heart")
                             .foregroundColor(.red)
                     }
                     Button {
-                        showComment.toggle()
+                        vm.showComment.toggle()
                     } label: {
                         Image(systemName: "message")
                     }
@@ -73,9 +55,9 @@ struct PostView: View {
                     }
                     Spacer()
                     Button {
-                        isBookmark.toggle()
+                        vm.isBookmark.toggle()
                     } label: {
-                        Image(systemName: isBookmark ? "bookmark.fill" : "bookmark")
+                        Image(systemName: vm.isBookmark ? "bookmark.fill" : "bookmark")
                     }
                 }
                 .font(.title2)
@@ -92,7 +74,7 @@ struct PostView: View {
                         Text("\(user.username)")
                     }
                     Button {
-                        showComment.toggle()
+                        vm.showComment.toggle()
                     } label: {
                         Text("\(postData.caption)")
                             .multilineTextAlignment(.leading)
@@ -102,48 +84,27 @@ struct PostView: View {
                         .foregroundColor(.gray)
                 }
                 .padding(.horizontal)
+                Spacer()
+            } else {
+                Spacer()
+                Text("Unable to load the post")
+                Spacer()
             }
-            Spacer()
         }
-        .alert("Unable to like or remove like from the post", isPresented: $showAlert) {}
-        .sheet(isPresented: $showComment) {
+        .alert("Unable to like or remove like from the post", isPresented: $vm.showAlert) {}
+        .sheet(isPresented: $vm.showComment) {
             CommentsView(post: $postData)
                 .presentationDetents([.large, .medium])
                 .presentationDragIndicator(.visible)
         }
         .task {
-            await fetchUserData()
-            getPostIsLiked()
-        }
-    }
-}
-
-extension PostView {
-    func fetchUserData() async {
-        let userID = postData.createrID
-        do {
-            if user == nil {
-            let doc = try await Firestore.firestore().collection("users").document(userID).getDocument()
-                user = try doc.data(as: User.self)
-            }
-        } catch {
-            print("Fetch user fail: \(error.localizedDescription)")
-        }
-    }
-    
-    func getPostIsLiked() {
-        guard let userId = AuthService.shared.userSession?.uid else {
-            print("Unable to get user info")
-            return
-        }
-        if postData.likes.contains(userId) {
-            isLike = true
+            await vm.initializePost(postData: postData)
         }
     }
 }
 
 struct PostView_Previews: PreviewProvider {
     static var previews: some View {
-        PostView(user: User.MOCK[0], postData: .constant(Post.MOCK[0]))
+        PostView(postData: .constant(Post.MOCK[0]))
     }
 }

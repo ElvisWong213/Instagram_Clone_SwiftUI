@@ -8,6 +8,8 @@
 import SwiftUI
 
 struct PostGrid: View {
+    @EnvironmentObject var authService: AuthService
+
     let colums = [GridItem(.flexible()), GridItem(.flexible()), GridItem(.flexible())]
     
     @State var posts: [Post] = []
@@ -37,5 +39,6 @@ struct PostGrid: View {
 struct PostGrid_Previews: PreviewProvider {
     static var previews: some View {
         PostGrid(posts: Post.MOCK)
+            .environmentObject(AuthService())
     }
 }

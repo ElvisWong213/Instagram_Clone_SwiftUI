@@ -74,9 +74,7 @@ struct NewPostView: View {
         .onAppear() {
             requestForAuthorizationIfNecessary()
         }
-        .alert("This app requires photo library access to show your photos", isPresented: $showError) {
-            
-        }
+        .alert("This app requires photo library access to show your photos", isPresented: $showError) {}
     }
 }
 

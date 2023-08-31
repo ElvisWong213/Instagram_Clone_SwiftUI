@@ -29,6 +29,8 @@
 		AA3DE8182A8EF8AF00B070B5 /* ImageError.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA3DE8172A8EF8AF00B070B5 /* ImageError.swift */; };
 		AA3DE81B2A8F052E00B070B5 /* UserError.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA3DE81A2A8F052E00B070B5 /* UserError.swift */; };
 		AA4E18712A9D4FC0002F3A09 /* Comment.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA4E18702A9D4FC0002F3A09 /* Comment.swift */; };
+		AA4E18742A9FE18B002F3A09 /* HomeVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA4E18732A9FE18B002F3A09 /* HomeVM.swift */; };
+		AA4E18762A9FF56E002F3A09 /* SignUpVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA4E18752A9FF56E002F3A09 /* SignUpVM.swift */; };
 		AA7F96702A891BDD000DD8C2 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA7F966F2A891BDD000DD8C2 /* HomeView.swift */; };
 		AA7F96762A8926A6000DD8C2 /* PostView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA7F96752A8926A6000DD8C2 /* PostView.swift */; };
 		AA7F96782A892AA4000DD8C2 /* MessageView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA7F96772A892AA4000DD8C2 /* MessageView.swift */; };
@@ -72,6 +74,8 @@
 		AA3DE8172A8EF8AF00B070B5 /* ImageError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageError.swift; sourceTree = "<group>"; };
 		AA3DE81A2A8F052E00B070B5 /* UserError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserError.swift; sourceTree = "<group>"; };
 		AA4E18702A9D4FC0002F3A09 /* Comment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Comment.swift; sourceTree = "<group>"; };
+		AA4E18732A9FE18B002F3A09 /* HomeVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeVM.swift; sourceTree = "<group>"; };
+		AA4E18752A9FF56E002F3A09 /* SignUpVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpVM.swift; sourceTree = "<group>"; };
 		AA7F966F2A891BDD000DD8C2 /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
 		AA7F96752A8926A6000DD8C2 /* PostView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PostView.swift; sourceTree = "<group>"; };
 		AA7F96772A892AA4000DD8C2 /* MessageView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MessageView.swift; sourceTree = "<group>"; };
@@ -114,6 +118,7 @@
 			isa = PBXGroup;
 			children = (
 				AAC11FCD2A87BD1D001669B4 /* SignUpView.swift */,
+				AA4E18752A9FF56E002F3A09 /* SignUpVM.swift */,
 				AA91E8C82A86E7E400C901EE /* LoginView.swift */,
 			);
 			path = AccountManager;
@@ -160,6 +165,15 @@
 				AA3DE81A2A8F052E00B070B5 /* UserError.swift */,
 			);
 			path = Error;
+			sourceTree = "<group>";
+		};
+		AA4E18722A9FE17A002F3A09 /* Home */ = {
+			isa = PBXGroup;
+			children = (
+				AA7F966F2A891BDD000DD8C2 /* HomeView.swift */,
+				AA4E18732A9FE18B002F3A09 /* HomeVM.swift */,
+			);
+			path = Home;
 			sourceTree = "<group>";
 		};
 		AA7F96812A898067000DD8C2 /* Element */ = {
@@ -249,11 +263,11 @@
 		AA91E8CB2A86E93F00C901EE /* View */ = {
 			isa = PBXGroup;
 			children = (
+				AA4E18722A9FE17A002F3A09 /* Home */,
 				AA325E472A8AC1FB00BDF1BC /* AccountManager */,
 				AA7F968E2A89CEDE000DD8C2 /* Message */,
 				AA7F96892A89CA4D000DD8C2 /* Comments */,
 				AA7F96862A89C86C000DD8C2 /* Post */,
-				AA7F966F2A891BDD000DD8C2 /* HomeView.swift */,
 				AA325E3F2A8A955200BDF1BC /* PostGrid.swift */,
 				AA3DE8062A8D9C3000B070B5 /* Profile */,
 			);
@@ -351,6 +365,7 @@
 				AA325E542A8BECD200BDF1BC /* PhotoThumbnailView.swift in Sources */,
 				AA7F96762A8926A6000DD8C2 /* PostView.swift in Sources */,
 				AA3DE7FE2A8D5F2E00B070B5 /* InputField.swift in Sources */,
+				AA4E18742A9FE18B002F3A09 /* HomeVM.swift in Sources */,
 				AA7F96802A898028000DD8C2 /* ProfileView.swift in Sources */,
 				AA7F967A2A8933E4000DD8C2 /* CommentsView.swift in Sources */,
 				AA3DE81B2A8F052E00B070B5 /* UserError.swift in Sources */,
@@ -364,6 +379,7 @@
 				AA91E8C92A86E7E400C901EE /* LoginView.swift in Sources */,
 				AA7F968B2A89CA6C000DD8C2 /* SingleCommentView.swift in Sources */,
 				AA7F96782A892AA4000DD8C2 /* MessageView.swift in Sources */,
+				AA4E18762A9FF56E002F3A09 /* SignUpVM.swift in Sources */,
 				AA91E8B82A86AAE300C901EE /* ContentView.swift in Sources */,
 				AA3DE8102A8DB05E00B070B5 /* Username.swift in Sources */,
 				AA3DE8122A8EC74300B070B5 /* EditProfileView.swift in Sources */,

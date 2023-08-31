@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct CommentsView: View {
+    @EnvironmentObject var authService: AuthService
     @State var showAlert = false
     @State var myComment = ""
     @Binding var post: Post

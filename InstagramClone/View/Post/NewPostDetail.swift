@@ -10,6 +10,7 @@ import Photos
 
 struct NewPostDetail: View {
     private let photoLibraryService = PhotoLibraryService()
+    @EnvironmentObject var authService: AuthService
     @Binding var showSheet: Bool
 
     @State private var caption: String = ""
@@ -51,9 +52,7 @@ struct NewPostDetail: View {
                     } label: {
                         Text("Share")
                     }
-                    .alert(errorMessage, isPresented: $showAlert) {
-                        
-                    }
+                    .alert(errorMessage, isPresented: $showAlert) {}
                 }
             }
         }

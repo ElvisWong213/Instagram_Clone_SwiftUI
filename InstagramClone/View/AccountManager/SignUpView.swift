@@ -9,21 +9,16 @@ import SwiftUI
 
 struct SignUpView: View {
     @EnvironmentObject var authService: AuthService
-    
-    @State var username: String = ""
-    @State var email: String = ""
-    @State var password: String = ""
-    @State var errorMessage: String = ""
-    @State var showAlert: Bool = false
+    @StateObject var vm = SignUpVM()
     
     var body: some View {
         VStack(spacing: 15) {
             Text("Create Account")
                 .font(.title)
                 .bold()
-            InputField(title: "Username", input: $username, isPassword: false)
-            InputField(title: "Email", input: $email, isPassword: false)
-            InputField(title: "Password", input: $password, isPassword: true)
+            InputField(title: "Username", input: $vm.username, isPassword: false)
+            InputField(title: "Email", input: $vm.email, isPassword: false)
+            InputField(title: "Password", input: $vm.password, isPassword: true)
             Button {
                 Task {
                     await createAccount()
@@ -32,26 +27,28 @@ struct SignUpView: View {
                 Text("Create account")
                     .frame(maxWidth: .infinity)
             }
-            .disabled(username.isEmpty || email.isEmpty || password.isEmpty)
+            .disabled(vm.allFieldEmpty())
             .buttonStyle(.borderedProminent)
             .frame(maxWidth: .infinity)
         }
-        .alert(errorMessage, isPresented: $showAlert, actions: {
+        .alert(vm.errorMessage, isPresented: $vm.showAlert, actions: {
             Button {
-                showAlert = false
+                vm.showAlert = false
             } label: {
                 Text("OK")
             }
         })
         .padding(.horizontal, 40)
     }
-    
+}
+
+extension SignUpView {
     func createAccount() async {
         do {
-            try await authService.createUser(email: email, password: password, username: username)
+            try await authService.createUser(email: vm.email, password: vm.password, username: vm.username)
         } catch {
-            showAlert = true
-            errorMessage = error.localizedDescription
+            vm.showAlert = true
+            vm.errorMessage = error.localizedDescription
         }
     }
 }

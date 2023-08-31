@@ -8,23 +8,28 @@
 import SwiftUI
 
 struct HomeView: View {
-    @State var posts: [Post] = []
+    @StateObject var vm = HomeVM()
     @Binding var viewSelection: Int
-    @State var previousSelection: Int = 1
-    @State var showSheet = false
     
     var body: some View {
         TabView(selection: $viewSelection) {
             NavigationStack {
                 ScrollView {
-                    LazyVStack {
-                        ForEach($posts) { post in
-                            PostView(postData: post)
+                    if vm.posts.isEmpty {
+                        Text("No posts yet")
+                    } else {
+                        LazyVStack {
+                            ForEach($vm.posts) { post in
+                                PostView(postData: post)
+                            }
                         }
                     }
                 }
+                .task {
+                    await vm.fetchPost()
+                }
                 .refreshable {
-                    posts = await PostService().fetchPosts()
+                    await vm.fetchPost()
                 }
                 .navigationTitle("Home")
                 .navigationBarTitleDisplayMode(.inline)
@@ -62,19 +67,16 @@ struct HomeView: View {
         }
         .onChange(of: viewSelection, perform: { newValue in
             if newValue == 3 {
-                showSheet = true
+                vm.showSheet = true
             } else {
-                previousSelection = viewSelection
+                vm.previousSelection = viewSelection
             }
         })
         .tabViewStyle(.automatic)
-        .sheet(isPresented: $showSheet, onDismiss: {
-            viewSelection = previousSelection
+        .sheet(isPresented: $vm.showSheet, onDismiss: {
+            viewSelection = vm.previousSelection
         }) {
-            NewPostView(showSheet: $showSheet)
-        }
-        .task {
-            posts = await PostService().fetchPosts()
+            NewPostView(showSheet: $vm.showSheet)
         }
     }
 }
