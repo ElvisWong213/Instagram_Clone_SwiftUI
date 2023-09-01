@@ -13,7 +13,7 @@ struct InputField: View {
     var isPassword: Bool
     
     var body: some View {
-        VStack {
+        Group {
             if isPassword {
                 SecureField(title, text: $input)
                     .autocorrectionDisabled()

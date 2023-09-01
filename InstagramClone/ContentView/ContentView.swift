@@ -6,17 +6,18 @@
 //
 
 import SwiftUI
+import FirebaseAuth
 
 struct ContentView: View {
     @State var pageSelection = 1
     @State var viewSelection = 1
     @State var isLock = false
         
-    @EnvironmentObject var authService: AuthService
+    @StateObject var vm = ContentVM()
     
     var body: some View {
-        VStack {
-            if authService.userSession != nil {
+        Group {
+            if vm.userSession != nil {
                 content
             } else {
                 LoginView()

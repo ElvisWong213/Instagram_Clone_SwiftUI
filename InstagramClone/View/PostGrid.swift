@@ -8,11 +8,9 @@
 import SwiftUI
 
 struct PostGrid: View {
-    @EnvironmentObject var authService: AuthService
-
     let colums = [GridItem(.flexible()), GridItem(.flexible()), GridItem(.flexible())]
     
-    @State var posts: [Post] = []
+    @Binding var posts: [Post]
     
     var body: some View {
         ScrollView {
@@ -27,18 +25,11 @@ struct PostGrid: View {
                 }
             }
         }
-        .refreshable {
-            posts = await PostService().fetchPosts()
-        }
-        .task {
-            posts = await PostService().fetchPosts()
-        }
     }
 }
 
 struct PostGrid_Previews: PreviewProvider {
     static var previews: some View {
-        PostGrid(posts: Post.MOCK)
-            .environmentObject(AuthService())
+        PostGrid(posts: .constant(Post.MOCK))
     }
 }

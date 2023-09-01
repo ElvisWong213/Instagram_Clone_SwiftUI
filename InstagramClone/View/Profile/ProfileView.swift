@@ -10,8 +10,9 @@ import SwiftUI
 struct ProfileView: View {
     @State var selection = 1
     @State var showSheet = false
-    @EnvironmentObject var authService: AuthService
+    let authService = AuthService.shared
     @State var profilePicUrl: URL!
+    @State var posts: [Post] = []
     
     var body: some View {
         NavigationStack {
@@ -70,9 +71,9 @@ struct ProfileView: View {
                 }
                 .pickerStyle(.segmented)
                 TabView(selection: $selection) {
-                    PostGrid()
+                    PostGrid(posts: $posts)
                         .tag(1)
-                    PostGrid()
+                    PostGrid(posts: $posts)
                         .tag(2)
                 }
                 .animation(.default, value: selection)
@@ -98,11 +99,21 @@ struct ProfileView: View {
                 }
             }
         }
-        .sheet(isPresented: $showSheet) {
+        .sheet(isPresented: $showSheet, onDismiss: {
+            getProfilePicUrl()
+        }) {
             NewPostView(showSheet: $showSheet)
         }
         .onAppear() {
             getProfilePicUrl()
+        }
+        .task {
+            posts = await PostService().fetchPosts()
+        }
+        .refreshable {
+            Task {
+                posts = await PostService().fetchPosts()
+            }
         }
     }
 }

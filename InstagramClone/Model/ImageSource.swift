@@ -6,8 +6,10 @@
 //
 
 import Foundation
+import SwiftUI
 
 enum ImageSource {
     case local(name: String)
     case remote(url: URL?)
+    case image(image: Image)
 }

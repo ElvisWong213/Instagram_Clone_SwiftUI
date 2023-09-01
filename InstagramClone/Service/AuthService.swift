@@ -9,6 +9,7 @@ import Foundation
 import FirebaseAuth
 import FirebaseFirestoreSwift
 import FirebaseFirestore
+import FirebaseStorage
 
 class AuthService: ObservableObject {
     @Published var userSession: FirebaseAuth.User?
@@ -34,7 +35,7 @@ class AuthService: ObservableObject {
             self.userSession = result.user
             try await fetchUserData()
         } catch {
-            print("Sign In fail: \(error.localizedDescription)")
+            print("DEBUG - Sign In fail: \(error.localizedDescription)")
             throw error
         }
     }
@@ -49,7 +50,7 @@ class AuthService: ObservableObject {
             self.userSession = result.user
             try uploadUserData(user: .init(id: result.user.uid, username: username, email: email, image: "", gender: .None))
         } catch {
-            print("Sign Up fail: \(error.localizedDescription)")
+            print("DEBUG - Sign Up fail: \(error.localizedDescription)")
             throw error
         }
     }
@@ -67,7 +68,7 @@ class AuthService: ObservableObject {
                 return true
             }
         } catch {
-            print("Fail to scan username: \(error.localizedDescription)")
+            print("DEBUG - Fail to scan username: \(error.localizedDescription)")
             throw error
         }
         return false
@@ -76,15 +77,14 @@ class AuthService: ObservableObject {
     func signOut() {
         do {
             try Auth.auth().signOut()
-            DispatchQueue.main.async {
-                self.userSession = nil
-                self.currentUser = nil
-            }
+            self.userSession = nil
+            self.currentUser = nil
         } catch {
-            print("Sign Out fail: \(error.localizedDescription)")
+            print("DEBUG - Sign Out fail: \(error.localizedDescription)")
         }
     }
     
+    @MainActor
     func fetchUserData() async throws {
         guard let userID = userSession?.uid else {
             throw UserError.UnableGetUserData
@@ -92,11 +92,9 @@ class AuthService: ObservableObject {
         do {
             let doc = try await Firestore.firestore().collection("users").document(userID).getDocument()
             let userdata = try doc.data(as: User.self)
-            DispatchQueue.main.async {
-                self.currentUser = userdata
-            }
+            self.currentUser = userdata
         } catch {
-            print("Fetch user fail: \(error.localizedDescription)")
+            print("DEBUG - Fetch user fail: \(error.localizedDescription)")
             throw error
         }
     }
@@ -120,8 +118,26 @@ class AuthService: ObservableObject {
             try await Firestore.firestore().collection("usernames").document(oldUsername).delete()
             try await uploadUserData(user: user)
         } catch {
-            print("Update user info fail: \(error.localizedDescription)_")
+            print("DEBUG - Update user info fail: \(error.localizedDescription)_")
             throw error
+        }
+    }
+    
+    func uploadUserProfileImage(image: UIImage) async throws -> String? {
+        guard let data = image.jpegData(compressionQuality: 0.8) else {
+            throw ImageError.ConvertFail
+        }
+        guard let userId = AuthService.shared.userSession?.uid else {
+            throw UserError.UnableGetUserData
+        }
+        let imageRef = Storage.storage().reference().child("\(userId)/profileImage.jpg")
+        do {
+            let _ = try await imageRef.putDataAsync(data)
+            let url = try await imageRef.downloadURL()
+            return url.absoluteString
+        } catch {
+            print("DEBUG - Upload Error: \(error.localizedDescription)")
+            return nil
         }
     }
 }

@@ -34,6 +34,8 @@ struct CashedAsyncImage<Content>: View where Content: View {
             }
         case .remote(url: .none):
             content(.failure(ImageError.UrlEmpty))
+        case .image(image: let image):
+            content(.success(image))
         }
     }
     

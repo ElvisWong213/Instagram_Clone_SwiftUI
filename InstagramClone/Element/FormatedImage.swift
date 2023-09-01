@@ -22,6 +22,7 @@ struct FormatedImage: View {
             case .success(let image):
                 image
                     .resizable()
+                    .renderingMode(.original)
             case .failure:
                 Color.gray
             @unknown default:

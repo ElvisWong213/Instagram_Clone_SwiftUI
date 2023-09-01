@@ -17,4 +17,13 @@ class SignUpVM: ObservableObject {
     func allFieldEmpty() -> Bool {
         return username.isEmpty || email.isEmpty || password.isEmpty
     }
+    
+    func createAccount() async {
+        do {
+            try await AuthService.shared.createUser(email: email, password: password, username: username)
+        } catch {
+            showAlert = true
+            errorMessage = error.localizedDescription
+        }
+    }
 }

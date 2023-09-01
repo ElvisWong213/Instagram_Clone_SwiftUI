@@ -8,7 +8,6 @@
 import SwiftUI
 
 struct SignUpView: View {
-    @EnvironmentObject var authService: AuthService
     @StateObject var vm = SignUpVM()
     
     var body: some View {
@@ -21,7 +20,7 @@ struct SignUpView: View {
             InputField(title: "Password", input: $vm.password, isPassword: true)
             Button {
                 Task {
-                    await createAccount()
+                    await vm.createAccount()
                 }
             } label: {
                 Text("Create account")
@@ -39,17 +38,6 @@ struct SignUpView: View {
             }
         })
         .padding(.horizontal, 40)
-    }
-}
-
-extension SignUpView {
-    func createAccount() async {
-        do {
-            try await authService.createUser(email: vm.email, password: vm.password, username: vm.username)
-        } catch {
-            vm.showAlert = true
-            vm.errorMessage = error.localizedDescription
-        }
     }
 }
 

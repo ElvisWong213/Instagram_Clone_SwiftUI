@@ -8,14 +8,14 @@
 import SwiftUI
 
 struct ProfilePicture: View {
-    @State var imageLocation: ImageSource?
+    var imageLocation: ImageSource?
     @State var size: CGFloat
     
     var body: some View {
         ZStack {
             if let imageLocation = imageLocation {
                 FormatedImage(imageLocation: imageLocation)
-                    .scaledToFit()
+                    .clipped()
             } else {
                 Rectangle()
                     .background(.gray)

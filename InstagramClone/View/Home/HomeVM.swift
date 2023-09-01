@@ -25,6 +25,5 @@ class HomeVM: ObservableObject {
     @MainActor
     func fetchPost() async {
         posts = await postService.fetchPosts()
-        print(posts)
     }
 }

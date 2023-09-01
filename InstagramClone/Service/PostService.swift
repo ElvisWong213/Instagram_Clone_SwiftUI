@@ -9,36 +9,33 @@ import Foundation
 import FirebaseFirestore
 import FirebaseFirestoreSwift
 import FirebaseStorage
-import Firebase
 
 class PostService{
-    let authService = AuthService.shared
-    
     func uploadPost(caption: String, image: UIImage) throws {
         guard let data = image.jpegData(compressionQuality: 0.8) else {
             throw ImageError.ConvertFail
         }
-        guard let userId = authService.userSession?.uid else {
+        guard let userId = AuthService.shared.userSession?.uid else {
             throw UserError.UnableGetUserData
         }
         let timestamp = Timestamp()
-        let postRef = Storage.storage().reference().child("\(userId)/\(timestamp).jpg")
-        postRef.putData(data) { _, error in
+        let postRef = Firestore.firestore().collection("posts").document()
+        let postImgRef = Storage.storage().reference().child("\(userId)/\(postRef.documentID).jpg")
+        postImgRef.putData(data) { _, error in
             if error != nil {
-                print("Upload Error: \(error?.localizedDescription ?? "")")
+                print("DEBUG - Upload Error: \(error?.localizedDescription ?? "")")
                 return
             }
-            postRef.downloadURL { url, error in
+            postImgRef.downloadURL { url, error in
                 if error != nil {
-                    print("Download Url error: \(error?.localizedDescription ?? "")")
+                    print("DEBUG - Download Url error: \(error?.localizedDescription ?? "")")
                     return
                 } else {
-                    let postRef = Firestore.firestore().collection("posts").document()
                     let post = Post(id: postRef.documentID, date: timestamp, imagesURL: [url?.absoluteString ?? ""], caption: caption, createrID: userId)
                     do {
                         try Firestore.firestore().collection("posts").document(postRef.documentID).setData(from: post)
                     } catch {
-                        print("Upload data to Firestore fail: \(error.localizedDescription)")
+                        print("DEBUG - Upload data to Firestore fail: \(error.localizedDescription)")
                     }
                 }
             }
@@ -46,7 +43,7 @@ class PostService{
     }
     
     func fetchPosts() async -> [Post] {
-        guard let userID = authService.userSession?.uid else {
+        guard let userID = AuthService.shared.userSession?.uid else {
             return []
 //            throw UserError.UnableGetUserData
         }
@@ -55,14 +52,14 @@ class PostService{
             let query: Query = Firestore.firestore().collection("posts").order(by: "date", descending: true).whereField("createrID", isEqualTo: userID)
             posts = try await query.getDocuments().documents.compactMap { try $0.data(as: Post.self) }
         } catch {
-            print("Fetch user fail: \(error.localizedDescription)")
+            print("DEBUG - Fetch user fail: \(error.localizedDescription)")
         }
         return posts
     }
     
     private func constructComment(comment: String) throws -> Comment {
-        guard let userID = authService.userSession?.uid else {
-            print("Fail to construct comment")
+        guard let userID = AuthService.shared.userSession?.uid else {
+            print("DEBUG - Fail to construct comment")
             throw UserError.UnableGetUserData
         }
         return Comment(userID: userID, message: comment, date: Timestamp())
@@ -76,20 +73,20 @@ class PostService{
         let docRef = Firestore.firestore().collection("posts").document(post.id)
         docRef.updateData(["comments" : FieldValue.arrayUnion([bufferNewComment])]) { error in
             if let error = error {
-                print("Unable to update data: \(error)")
+                print("DEBUG - Unable to update data: \(error)")
             }
         }
         return bufferPost
     }
     
     func leaveLike(post: Post) throws -> Post {
-        guard let userID = authService.userSession?.uid else {
+        guard let userID = AuthService.shared.userSession?.uid else {
             throw UserError.UnableGetUserData
         }
         let docRef = Firestore.firestore().collection("posts").document(post.id)
         docRef.updateData(["likes" : FieldValue.arrayUnion([userID])]) { error in
             if let error = error {
-                print("Unable to update data: \(error)")
+                print("DEBUG - Unable to update data: \(error)")
             }
         }
         var bufferPost = post
@@ -98,13 +95,13 @@ class PostService{
     }
     
     func removeLike(post: Post) throws -> Post {
-        guard let userID = authService.userSession?.uid else {
+        guard let userID = AuthService.shared.userSession?.uid else {
             throw UserError.UnableGetUserData
         }
         let docRef = Firestore.firestore().collection("posts").document(post.id)
         docRef.updateData(["likes" : FieldValue.arrayRemove([userID])]) { error in
             if let error = error {
-                print("Unable to update data: \(error)")
+                print("DEBUG - Unable to update data: \(error)")
             }
         }
         var bufferPost = post

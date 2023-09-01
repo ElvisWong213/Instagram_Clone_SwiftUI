@@ -6,9 +6,10 @@
 //
 
 import SwiftUI
+import PhotosUI
 
 struct EditProfileView: View {
-    @EnvironmentObject var authService: AuthService
+    let authService = AuthService.shared
     @Environment(\.dismiss) var dismiss
     
     @State var image: ImageSource?
@@ -21,15 +22,15 @@ struct EditProfileView: View {
     @State var errorMessage: String = ""
     @State var showAlert: Bool = false
     
+    @State var selectedImage: PhotosPickerItem?
+    @State var selectedUIImage: UIImage?
+    
     var body: some View {
         NavigationStack {
             VStack {
-                Button {
-
-                } label: {
+                PhotosPicker(selection: $selectedImage, matching: .images) {
                     ProfilePicture(imageLocation: image, size: 100)
                 }
-                .buttonStyle(.plain)
                 Form {
                     EditProfileRow(title: "Name", text: $name)
                     EditProfileRow(title: "Username", text: $username)
@@ -50,40 +51,58 @@ struct EditProfileView: View {
                         Task {
                             await updateUserInfo()
                         }
+                        dismiss()
                     }
                 }
             }
-            .alert(errorMessage, isPresented: $showAlert) {
-                
-            }
+            .alert(errorMessage, isPresented: $showAlert) {}
         }
         .onAppear() {
             initialUserInfo()
+        }
+        .onChange(of: selectedImage) { _ in
+            Task {
+                await convertSelectedImage()
+            }
         }
     }
 }
 
 extension EditProfileView {
-    func updateUserInfo() async {
-        guard var user = authService.currentUser else {
-            errorMessage = UserError.UnableGetUserData.localizedDescription
-            showAlert = true
-            return
-        }
-        user.name = name
-        user.username = username
-        user.pronouns = pronouns
-        user.link = link
-        user.gender = gender
+    func convertSelectedImage() async {
         do {
+            if let data = try await selectedImage?.loadTransferable(type: Data.self) {
+                if let uiImage = UIImage(data: data) {
+                    selectedUIImage = uiImage
+                    image = .image(image: Image(uiImage: uiImage))
+                }
+            }
+        } catch {
+            print("DEBUG - Unable to convert selected image to uiimage: \(error.localizedDescription)")
+        }
+    }
+    
+    func updateUserInfo() async {
+        do {
+            guard var user = authService.currentUser else {
+                throw UserError.UnableGetUserData
+            }
+            guard let uiImage = selectedUIImage else {
+                throw ImageError.SelectionEmpty
+            }
+            user.image = try await authService.uploadUserProfileImage(image: uiImage)
+            user.name = name
+            user.username = username
+            user.pronouns = pronouns
+            user.link = link
+            user.gender = gender
             try await authService.updateUserData(user: user)
         } catch {
-            print("Update user info fail: \(error.localizedDescription)_")
+            print("DEBUG - Update user info fail: \(error.localizedDescription)")
             errorMessage = error.localizedDescription
             showAlert = true
             return
         }
-        dismiss()
     }
     
     func initialUserInfo() {
@@ -92,7 +111,7 @@ extension EditProfileView {
             showAlert = true
             return
         }
-        self.image = ImageSource.remote(url: URL(string: user.image ?? ""))
+        self.image = .remote(url: URL(string: user.image ?? ""))
         self.name = user.name ?? ""
         self.username = user.username
         self.pronouns = user.pronouns ?? ""
@@ -105,6 +124,5 @@ extension EditProfileView {
 struct EditProfileView_Previews: PreviewProvider {
     static var previews: some View {
         EditProfileView()
-            .environmentObject(AuthService())
     }
 }

@@ -10,7 +10,6 @@ import SwiftUI
 struct LoginView: View {
     @State private var email: String = ""
     @State private var password: String = ""
-    @EnvironmentObject var authService: AuthService
     
     @State var errorMessage: String = ""
     @State var showAlert: Bool = false
@@ -60,7 +59,7 @@ struct LoginView: View {
     
     func login() async {
         do {
-            try await authService.signIn(email: email,password: password)
+            try await AuthService.shared.signIn(email: email,password: password)
         } catch {
             errorMessage = error.localizedDescription
             showAlert = true
