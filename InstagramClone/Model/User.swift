@@ -7,7 +7,7 @@
 
 import Foundation
 
-struct User: Identifiable, Codable  {
+struct User: Identifiable, Codable, Hashable  {
     let id: String
     var name: String?
     var username: String
@@ -21,9 +21,9 @@ struct User: Identifiable, Codable  {
 extension User {
     static var MOCK: [User] =
     [
-        .init(id: UUID().uuidString, username: "A", email: "A", image: "http://127.0.0.1:9199/v0/b/instagram-clone-89bc4.appspot.com/o/IMG_9592.jpeg?alt=media&token=50dfa9c6-f054-4f2a-882e-6ce49ec12f17"),
-        .init(id: UUID().uuidString, username: "B", email: "B", image: "Profile"),
-        .init(id: UUID().uuidString, username: "C", email: "C", image: "Profile"),
-        .init(id: UUID().uuidString, username: "D", email: "D", image: "Profile")
+        .init(id: UUID().uuidString, name: "AAA", username: "A",email: "A", image: ""),
+        .init(id: UUID().uuidString, name: "BBB", username: "B",email: "B", image: "Profile"),
+        .init(id: UUID().uuidString, name: "CCC", username: "C",email: "C", image: "Profile"),
+        .init(id: UUID().uuidString, name: "DDD", username: "D",email: "D", image: "Profile")
     ]
 }

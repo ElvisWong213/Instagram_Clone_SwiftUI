@@ -8,11 +8,11 @@
 import SwiftUI
 
 struct HomeView: View {
+    @EnvironmentObject var mainTabVM: MainTabVM
     @StateObject var vm = HomeVM()
-    @Binding var viewSelection: Int
     
     var body: some View {
-        TabView(selection: $viewSelection) {
+        TabView(selection: $mainTabVM.HomeViewSelection) {
             NavigationStack {
                 ScrollView {
                     if vm.posts.isEmpty {
@@ -43,7 +43,7 @@ struct HomeView: View {
                     }
                     ToolbarItem {
                         Button {
-//                            selection = 2
+                            mainTabVM.MainTabSelection = 2
                         } label: {
                             Image(systemName: "message")
                         }
@@ -65,16 +65,16 @@ struct HomeView: View {
                 .tabItem { Image(systemName: "person.crop.circle") }
                 .tag(5)
         }
-        .onChange(of: viewSelection, perform: { newValue in
+        .onChange(of: mainTabVM.HomeViewSelection, perform: { newValue in
             if newValue == 3 {
                 vm.showSheet = true
             } else {
-                vm.previousSelection = viewSelection
+                vm.previousSelection = mainTabVM.HomeViewSelection
             }
         })
         .tabViewStyle(.automatic)
         .sheet(isPresented: $vm.showSheet, onDismiss: {
-            viewSelection = vm.previousSelection
+            mainTabVM.HomeViewSelection = vm.previousSelection
         }) {
             NewPostView(showSheet: $vm.showSheet)
         }
@@ -83,6 +83,7 @@ struct HomeView: View {
 
 struct HomeView_Previews: PreviewProvider {
     static var previews: some View {
-        HomeView(viewSelection: .constant(1))
+        HomeView()
+            .environmentObject(MainTabVM())
     }
 }

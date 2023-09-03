@@ -25,16 +25,25 @@ struct ProfileView: View {
                             Text("2")
                             Text("Post")
                         }
-                        VStack {
-                            Text("2")
-                            Text("Followers")
+                        NavigationLink {
+                            UserListView(title: "Followers", usersId: [""])
+                        } label: {
+                            VStack {
+                                Text("2")
+                                Text("Followers")
+                            }
                         }
-                        VStack {
-                            Text("2")
-                            Text("Following")
+                        NavigationLink {
+                            UserListView(title: "Following", usersId: [""])
+                        } label: {
+                            VStack {
+                                Text("2")
+                                Text("Following")
+                            }
                         }
                     }
                 }
+                .font(.callout)
                 Text(authService.currentUser?.name ?? "")
                 HStack {
                     NavigationLink {

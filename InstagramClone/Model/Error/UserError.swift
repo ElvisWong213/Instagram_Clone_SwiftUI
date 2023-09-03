@@ -8,7 +8,7 @@
 import Foundation
 
 enum UserError: Error, LocalizedError {
-    case UnableGetUserData, UsernameUsed
+    case UnableGetUserData, UsernameUsed, UserIdIsEmpty
     
     var errorDescription: String? {
         switch self {
@@ -16,6 +16,8 @@ enum UserError: Error, LocalizedError {
             return "Unable to get user data"
         case .UsernameUsed:
             return "Username used"
+        case .UserIdIsEmpty:
+            return "User id is empty"
         }
     }
 }

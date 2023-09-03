@@ -63,9 +63,7 @@ struct PostView: View {
                 .font(.title2)
                 .padding(.horizontal)
                 VStack(alignment: .leading, spacing: 5) {
-                    Button {
-                        
-                    } label: {
+                    NavigationLink(destination: UserListView(title: "Likes", usersId: postData.likes)) {
                         Text("\(postData.likes.count) Likes")
                     }
                     Button {

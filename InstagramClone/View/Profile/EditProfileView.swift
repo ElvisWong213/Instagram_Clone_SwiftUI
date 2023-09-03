@@ -87,10 +87,9 @@ extension EditProfileView {
             guard var user = authService.currentUser else {
                 throw UserError.UnableGetUserData
             }
-            guard let uiImage = selectedUIImage else {
-                throw ImageError.SelectionEmpty
+            if let uiImage = selectedUIImage {
+                user.image = try await authService.uploadUserProfileImage(image: uiImage)
             }
-            user.image = try await authService.uploadUserProfileImage(image: uiImage)
             user.name = name
             user.username = username
             user.pronouns = pronouns

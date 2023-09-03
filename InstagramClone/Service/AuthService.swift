@@ -21,7 +21,7 @@ class AuthService: ObservableObject {
         self.userSession = Auth.auth().currentUser
         Task {
             do {
-                try await fetchUserData()
+                try await fetchLoginUserData()
             } catch {
                 print(error.localizedDescription)
             }
@@ -33,7 +33,7 @@ class AuthService: ObservableObject {
         do {
             let result = try await Auth.auth().signIn(withEmail: email, password: password)
             self.userSession = result.user
-            try await fetchUserData()
+            try await fetchLoginUserData()
         } catch {
             print("DEBUG - Sign In fail: \(error.localizedDescription)")
             throw error
@@ -85,18 +85,26 @@ class AuthService: ObservableObject {
     }
     
     @MainActor
-    func fetchUserData() async throws {
-        guard let userID = userSession?.uid else {
+    func fetchLoginUserData() async throws {
+        guard let userId = userSession?.uid else {
             throw UserError.UnableGetUserData
         }
+        self.currentUser = try await fetchUserData(userId: userId)
+    }
+    
+    func fetchUserData(userId: String) async throws -> User {
         do {
-            let doc = try await Firestore.firestore().collection("users").document(userID).getDocument()
+            if userId == "" {
+                throw UserError.UserIdIsEmpty
+            }
+            let doc = try await Firestore.firestore().collection("users").document(userId).getDocument()
             let userdata = try doc.data(as: User.self)
-            self.currentUser = userdata
+            return userdata
         } catch {
             print("DEBUG - Fetch user fail: \(error.localizedDescription)")
             throw error
         }
+        
     }
     
     @MainActor
