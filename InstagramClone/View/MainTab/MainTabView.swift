@@ -2,34 +2,52 @@
 //  MainTabView.swift
 //  InstagramClone
 //
-//  Created by Elvis on 01/09/2023.
+//  Created by Elvis on 13/08/2023.
 //
 
 import SwiftUI
 
 struct MainTabView: View {
+    @EnvironmentObject var mainPageVM: MainPageVM
     @StateObject var vm = MainTabVM()
     
     var body: some View {
-        PageView(pageCount: 3, currentIndex: $vm.MainTabSelection, isLock: vm.isLock) {
-            Text("Camera")
+        TabView(selection: $mainPageVM.HomeViewSelection) {
             HomeView()
-                .environmentObject(vm)
-            MessageView()
+                .tabItem { Image(systemName: "house") }
+                .tag(1)
+            Text("Tab Content 2")
+                .tabItem { Image(systemName: "magnifyingglass") }
+                .tag(2)
+            Text("")
+                .tabItem { Image(systemName: "plus.square") }
+                .tag(3)
+            Text("Tab Content 2")
+                .tabItem { Image(systemName: "video") }
+                .tag(4)
+            ProfileView()
+                .tabItem { Image(systemName: "person.crop.circle") }
+                .tag(5)
         }
-        .onChange(of: vm.HomeViewSelection, perform: { newValue in
-            if newValue == 1 {
-                vm.isLock = false
+        .onChange(of: mainPageVM.HomeViewSelection, perform: { newValue in
+            if newValue == 3 {
+                vm.showSheet = true
             } else {
-                vm.isLock = true
+                vm.previousSelection = mainPageVM.HomeViewSelection
             }
         })
-        .animation(.default, value: vm.MainTabSelection)
+        .tabViewStyle(.automatic)
+        .sheet(isPresented: $vm.showSheet, onDismiss: {
+            mainPageVM.HomeViewSelection = vm.previousSelection
+        }) {
+            NewPostView(showSheet: $vm.showSheet)
+        }
     }
 }
 
 struct MainTabView_Previews: PreviewProvider {
     static var previews: some View {
         MainTabView()
+            .environmentObject(MainPageVM())
     }
 }

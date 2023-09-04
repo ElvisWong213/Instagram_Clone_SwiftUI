@@ -9,20 +9,25 @@ import SwiftUI
 
 struct UserListView: View {
     @State private var searchUser = ""
-    @State var users: [User] = [User]()
+    @State var users: [User] = []
     let title: String
     let usersId: [String]?
     
     var body: some View {
-        Group {
+        NavigationStack {
             if users.count != 0 {
                 List {
                     ForEach(searchResults, id: \.self) { user in
-                        UserInfoRow(user: user)
+                        UserInfoRow(user: user, followState: checkIsFollowing(targetId: user.id))
                     }
                 }
                 .listStyle(.plain)
                 .searchable(text: $searchUser, placement: .navigationBarDrawer(displayMode: .always), prompt: "Search username")
+                .refreshable {
+                    Task {
+                        await getUsersData()
+                    }
+                }
             } else {
                 Text("No Users")
             }
@@ -35,20 +40,6 @@ struct UserListView: View {
 }
 
 extension UserListView {
-    func getUsersData() async {
-        do {
-            guard let usersId = usersId else {
-                print("DEBUG - usersId is empty")
-                return
-            }
-            for id in usersId {
-                users.append(try await AuthService.shared.fetchUserData(userId: id))
-            }
-        } catch {
-            print("DEBUG - \(error.localizedDescription)")
-        }
-    }
-    
     var searchResults: [User] {
         if searchUser.isEmpty {
             return users
@@ -56,6 +47,37 @@ extension UserListView {
             return users.filter { $0.username.contains(searchUser) }
             
         }
+    }
+    
+    func getUsersData() async {
+        do {
+            try await AuthService.shared.fetchLoginUserData()
+            guard let usersId = usersId else {
+                print("DEBUG - UserListView usersId is empty")
+                return
+            }
+            var bufferUsers: [User] = []
+            for id in usersId {
+                bufferUsers.append(try await AuthService.shared.fetchUserData(userId: id))
+            }
+            users = bufferUsers
+        } catch {
+            print("DEBUG - UserListView \(error.localizedDescription)")
+        }
+    }
+    
+    func checkIsFollowing(targetId: String) -> FollowState {
+        guard let currentUser = AuthService.shared.currentUser else {
+            print("DEBUG - No current user")
+            return .cannotFollow
+        }
+        if currentUser.id == targetId {
+            return .cannotFollow
+        }
+        if currentUser.following.contains(targetId) {
+            return .following
+        }
+        return .notFollowing
     }
 }
 

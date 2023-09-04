@@ -8,8 +8,7 @@
 import Foundation
 import Firebase
 
-struct Comment: Codable, Identifiable {
-    var id: String = UUID().uuidString
+struct Comment: Codable, Hashable {
     let userID: String
     var message: String
     var date: Timestamp

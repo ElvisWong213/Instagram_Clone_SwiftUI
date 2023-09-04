@@ -13,8 +13,9 @@ struct ContentView: View {
     
     var body: some View {
         Group {
-            if $vm.userSession != nil {
-                MainTabView()
+            if vm.userSession != nil {
+                MainPageView()
+                    .environmentObject(vm)
             } else {
                 LoginView()
             }

@@ -90,7 +90,7 @@ extension EditProfileView {
             if let uiImage = selectedUIImage {
                 user.image = try await authService.uploadUserProfileImage(image: uiImage)
             }
-            user.name = name
+            user.fullname = name
             user.username = username
             user.pronouns = pronouns
             user.link = link
@@ -111,7 +111,7 @@ extension EditProfileView {
             return
         }
         self.image = .remote(url: URL(string: user.image ?? ""))
-        self.name = user.name ?? ""
+        self.name = user.fullname ?? ""
         self.username = user.username
         self.pronouns = user.pronouns ?? ""
         self.link = user.link ?? ""

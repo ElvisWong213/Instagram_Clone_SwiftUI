@@ -8,6 +8,7 @@
 import SwiftUI
 
 struct ProfileView: View {
+    @EnvironmentObject var contentVM: ContentVM
     @State var selection = 1
     @State var showSheet = false
     let authService = AuthService.shared
@@ -22,29 +23,29 @@ struct ProfileView: View {
                     Spacer()
                     HStack(spacing: 20) {
                         VStack {
-                            Text("2")
+                            Text("\(posts.count)")
                             Text("Post")
                         }
                         NavigationLink {
-                            UserListView(title: "Followers", usersId: [""])
+                            UserListView(title: "Followers", usersId: authService.currentUser?.followers)
                         } label: {
                             VStack {
-                                Text("2")
+                                Text("\(contentVM.currentUser?.followers.count ?? 0)")
                                 Text("Followers")
                             }
                         }
                         NavigationLink {
-                            UserListView(title: "Following", usersId: [""])
+                            UserListView(title: "Following", usersId: authService.currentUser?.following)
                         } label: {
                             VStack {
-                                Text("2")
+                                Text("\(contentVM.currentUser?.following.count ?? 0)")
                                 Text("Following")
                             }
                         }
                     }
                 }
                 .font(.callout)
-                Text(authService.currentUser?.name ?? "")
+                Text(authService.currentUser?.fullname ?? "")
                 HStack {
                     NavigationLink {
                         EditProfileView()
@@ -118,10 +119,12 @@ struct ProfileView: View {
         }
         .task {
             posts = await PostService().fetchPosts()
+            try? await authService.fetchLoginUserData()
         }
         .refreshable {
             Task {
                 posts = await PostService().fetchPosts()
+                try? await authService.fetchLoginUserData()
             }
         }
     }
@@ -140,5 +143,6 @@ struct ProfileView_Previews: PreviewProvider {
     static var previews: some View {
         ProfileView()
             .environmentObject(AuthService())
+            .environmentObject(ContentVM())
     }
 }

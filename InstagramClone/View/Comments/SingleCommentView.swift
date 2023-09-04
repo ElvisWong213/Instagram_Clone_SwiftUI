@@ -6,13 +6,12 @@
 //
 
 import SwiftUI
-//import FirebaseFirestoreSwift
 import FirebaseFirestore
 
 struct SingleCommentView: View {
     @State var userIcon: ImageSource?
     @State var userName: String?
-    var userID: String
+    var userId: String
     var commentDate: String
     var message: String
     @State var isLike: Bool = false
@@ -49,7 +48,7 @@ struct SingleCommentView: View {
 extension SingleCommentView {
     func fetchUserInfo() async {
         do {
-            let doc = try await Firestore.firestore().collection("users").document(userID).getDocument()
+            let doc = try await Firestore.firestore().collection("users").document(userId).getDocument()
             let userdata = try doc.data(as: User.self)
             userIcon = .remote(url: URL(string: userdata.image ?? ""))
             userName = userdata.username
@@ -61,6 +60,6 @@ extension SingleCommentView {
 
 struct SingleCommentView_Previews: PreviewProvider {
     static var previews: some View {
-        SingleCommentView(userIcon: .local(name: "Profile"), userName: "User Name", userID: "", commentDate: Date().description, message: "Comment")
+        SingleCommentView(userIcon: .local(name: "Profile"), userName: "User Name", userId: "", commentDate: Date().description, message: "Comment")
     }
 }

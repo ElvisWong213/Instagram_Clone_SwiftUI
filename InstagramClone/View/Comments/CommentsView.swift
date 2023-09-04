@@ -18,8 +18,8 @@ struct CommentsView: View {
             VStack {
                 if !post.comments.isEmpty {
                     List {
-                        ForEach(post.comments) { comment in
-                            SingleCommentView(userID: comment.userID, commentDate: comment.date.dateValue().description, message: comment.message)
+                        ForEach(post.comments, id: \.self) { comment in
+                            SingleCommentView(userId: comment.userID, commentDate: comment.date.dateValue().description, message: comment.message)
                         }
                     }
                     .buttonStyle(.borderless)
@@ -30,7 +30,7 @@ struct CommentsView: View {
                     Spacer()
                 }
                 HStack(spacing: 10) {
-                    ProfilePicture(imageLocation: .remote(url: URL(string: AuthService().currentUser?.image ?? "")), size: 50)
+                    ProfilePicture(imageLocation: .remote(url: URL(string: AuthService.shared.currentUser?.image ?? "")), size: 50)
                     HStack {
                         TextField("comment", text: $myComment)
                             .padding(10)
