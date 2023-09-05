@@ -25,7 +25,7 @@ struct MainTabView: View {
             Text("Tab Content 2")
                 .tabItem { Image(systemName: "video") }
                 .tag(4)
-            ProfileView()
+            ProfileView(userId: vm.authService.currentUser?.id ?? "")
                 .tabItem { Image(systemName: "person.crop.circle") }
                 .tag(5)
         }

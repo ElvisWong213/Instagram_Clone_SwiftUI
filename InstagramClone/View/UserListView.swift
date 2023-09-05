@@ -22,12 +22,12 @@ struct UserListView: View {
                     }
                 }
                 .listStyle(.plain)
-                .searchable(text: $searchUser, placement: .navigationBarDrawer(displayMode: .always), prompt: "Search username")
                 .refreshable {
                     Task {
                         await getUsersData()
                     }
                 }
+                .searchable(text: $searchUser, placement: .navigationBarDrawer(displayMode: .always), prompt: "Search username")
             } else {
                 Text("No Users")
             }

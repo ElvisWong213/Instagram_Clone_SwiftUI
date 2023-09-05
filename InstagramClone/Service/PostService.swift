@@ -42,19 +42,22 @@ class PostService{
         }
     }
     
-    func fetchPosts() async -> [Post] {
-        guard let userID = AuthService.shared.userSession?.uid else {
-            return []
-//            throw UserError.UnableGetUserData
-        }
+    func fetchPosts(userId: String) async -> [Post] {
         var posts: [Post] = []
         do {
-            let query: Query = Firestore.firestore().collection("posts").order(by: "date", descending: true).whereField("createrID", isEqualTo: userID)
+            let query: Query = Firestore.firestore().collection("posts").order(by: "date", descending: true).whereField("createrID", isEqualTo: userId)
             posts = try await query.getDocuments().documents.compactMap { try $0.data(as: Post.self) }
         } catch {
-            print("DEBUG - Fetch user fail: \(error.localizedDescription)")
+            print("DEBUG - Fetch posts fail: \(error.localizedDescription)")
         }
         return posts
+    }
+    
+    func fetchCurrentUserPosts() async -> [Post] {
+        guard let userId = AuthService.shared.userSession?.uid else {
+            return []
+        }
+        return await fetchPosts(userId: userId)
     }
     
     private func constructComment(comment: String) throws -> Comment {

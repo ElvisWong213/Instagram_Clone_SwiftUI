@@ -15,8 +15,12 @@ struct PostView: View {
         VStack(alignment: .leading) {
             if let user = vm.user {
                 HStack {
-                    ProfilePicture(imageLocation: .remote(url: URL(string: user.image ?? "")), size: 30)
-                    Text("\(user.username)")
+                    NavigationLink {
+                        ProfileView(userId: postData.createrID)
+                    } label: {
+                        ProfilePicture(imageLocation: .remote(url: URL(string: user.image ?? "")), size: 30)
+                        Text("\(user.username)")
+                    }
                     Spacer()
                     Button {
                         
@@ -66,8 +70,8 @@ struct PostView: View {
                     NavigationLink(destination: UserListView(title: "Likes", usersId: postData.likes)) {
                         Text("\(postData.likes.count) Likes")
                     }
-                    Button {
-                        
+                    NavigationLink {
+                        ProfileView(userId: postData.createrID)
                     } label: {
                         Text("\(user.username)")
                     }
