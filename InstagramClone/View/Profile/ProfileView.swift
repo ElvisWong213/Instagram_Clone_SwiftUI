@@ -60,7 +60,7 @@ struct ProfileView: View {
                 .tabViewStyle(.page(indexDisplayMode: .never))
             }
             .padding(.horizontal)
-            .navigationTitle(vm.authService.currentUser?.username ?? "")
+            .navigationTitle(vm.user?.username ?? "")
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem {

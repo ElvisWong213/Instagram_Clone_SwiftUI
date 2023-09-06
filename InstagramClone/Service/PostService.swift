@@ -60,6 +60,7 @@ class PostService{
         return await fetchPosts(userId: userId)
     }
     
+    // MARK: - Comment
     private func constructComment(comment: String) throws -> Comment {
         guard let userID = AuthService.shared.userSession?.uid else {
             print("DEBUG - Fail to construct comment")
@@ -82,6 +83,7 @@ class PostService{
         return bufferPost
     }
     
+    // MARK: - Like
     func leaveLike(post: Post) throws -> Post {
         guard let userID = AuthService.shared.userSession?.uid else {
             throw UserError.UnableGetUserData

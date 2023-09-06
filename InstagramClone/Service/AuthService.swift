@@ -21,7 +21,7 @@ class AuthService: ObservableObject {
         self.userSession = Auth.auth().currentUser
         Task {
             do {
-                try await fetchLoginUserData()
+                try await fetchCurrentUserData()
             } catch {
                 print(error.localizedDescription)
             }
@@ -33,7 +33,7 @@ class AuthService: ObservableObject {
         do {
             let result = try await Auth.auth().signIn(withEmail: email, password: password)
             self.userSession = result.user
-            try await fetchLoginUserData()
+            try await fetchCurrentUserData()
         } catch {
             print("DEBUG - Sign In fail: \(error.localizedDescription)")
             throw error
@@ -85,7 +85,7 @@ class AuthService: ObservableObject {
     }
     
     @MainActor
-    func fetchLoginUserData() async throws {
+    func fetchCurrentUserData() async throws {
         guard let userId = userSession?.uid else {
             throw UserError.UnableGetUserData
         }

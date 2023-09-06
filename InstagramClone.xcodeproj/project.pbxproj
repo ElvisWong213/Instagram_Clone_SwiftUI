@@ -136,14 +136,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		AA325E472A8AC1FB00BDF1BC /* AccountManager */ = {
+		AA325E472A8AC1FB00BDF1BC /* Login_SignUp */ = {
 			isa = PBXGroup;
 			children = (
 				AAC11FCD2A87BD1D001669B4 /* SignUpView.swift */,
 				AA4E18752A9FF56E002F3A09 /* SignUpVM.swift */,
 				AA91E8C82A86E7E400C901EE /* LoginView.swift */,
 			);
-			path = AccountManager;
+			path = Login_SignUp;
 			sourceTree = "<group>";
 		};
 		AA325E502A8BE28400BDF1BC /* Service */ = {
@@ -286,7 +286,7 @@
 			children = (
 				AAA880CB2AA6133A00B31074 /* Home */,
 				AA4E18722A9FE17A002F3A09 /* MainTab */,
-				AA325E472A8AC1FB00BDF1BC /* AccountManager */,
+				AA325E472A8AC1FB00BDF1BC /* Login_SignUp */,
 				AA7F968E2A89CEDE000DD8C2 /* Message */,
 				AA7F96892A89CA4D000DD8C2 /* Comments */,
 				AA7F96862A89C86C000DD8C2 /* Post */,

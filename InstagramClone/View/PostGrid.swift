@@ -20,7 +20,8 @@ struct PostGrid: View {
                         PostView(postData: $post)
                     } label: {
                         FormatedImage(imageLocation: .remote(url: URL(string: post.imagesURL[0])))
-                            .scaledToFit()
+                            .clipShape(Rectangle())
+                            .aspectRatio(1, contentMode: .fill)
                     }
                 }
             }

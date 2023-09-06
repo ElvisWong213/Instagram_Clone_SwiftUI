@@ -51,7 +51,7 @@ extension UserListView {
     
     func getUsersData() async {
         do {
-            try await AuthService.shared.fetchLoginUserData()
+            try await AuthService.shared.fetchCurrentUserData()
             guard let usersId = usersId else {
                 print("DEBUG - UserListView usersId is empty")
                 return
