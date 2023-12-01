@@ -9,7 +9,7 @@ import Foundation
 import FirebaseFirestore
 
 class FollowService {
-    func followingUser(targetId: String) async -> FollowState {
+    static func followingUser(targetId: String) async -> FollowState {
         guard let currentUserId = AuthService.shared.currentUser?.id else {
             print("DEBUG - \(UserError.UnableGetUserData.localizedDescription)")
             return .notFollowing
@@ -26,7 +26,7 @@ class FollowService {
         return .following
     }
     
-    func unfollowingUser(targetId: String) async -> FollowState {
+    static func unfollowingUser(targetId: String) async -> FollowState {
         guard let currentUserId = AuthService.shared.currentUser?.id else {
             print("DEBUG - \(UserError.UnableGetUserData.localizedDescription)")
             return .following
@@ -38,6 +38,20 @@ class FollowService {
             try await followUserDocRef.updateData(["followers" : FieldValue.arrayRemove([currentUserId])])
         } catch {
             print("DEBUG - unfollowing user fail: \(error.localizedDescription)")
+            return .following
+        }
+        return .notFollowing
+    }
+    
+    static func checkIsFollowing(targetId: String) -> FollowState {
+        guard let currentUser = AuthService.shared.currentUser else {
+            print("DEBUG - No current user")
+            return .cannotFollow
+        }
+        if currentUser.id == targetId {
+            return .cannotFollow
+        }
+        if currentUser.following.contains(targetId) {
             return .following
         }
         return .notFollowing

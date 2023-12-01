@@ -18,7 +18,7 @@ struct UserListView: View {
             if users.count != 0 {
                 List {
                     ForEach(searchResults, id: \.self) { user in
-                        UserInfoRow(user: user, followState: checkIsFollowing(targetId: user.id))
+                        UserInfoRow(user: user, followState: FollowService.checkIsFollowing(targetId: user.id))
                     }
                 }
                 .listStyle(.plain)
@@ -64,20 +64,6 @@ extension UserListView {
         } catch {
             print("DEBUG - UserListView \(error.localizedDescription)")
         }
-    }
-    
-    func checkIsFollowing(targetId: String) -> FollowState {
-        guard let currentUser = AuthService.shared.currentUser else {
-            print("DEBUG - No current user")
-            return .cannotFollow
-        }
-        if currentUser.id == targetId {
-            return .cannotFollow
-        }
-        if currentUser.following.contains(targetId) {
-            return .following
-        }
-        return .notFollowing
     }
 }
 

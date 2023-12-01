@@ -63,6 +63,8 @@
 		AAA880D32AA669CF00B31074 /* ProfileVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAA880D22AA669CF00B31074 /* ProfileVM.swift */; };
 		AAA880D52AA6806400B31074 /* ProfileButtons.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAA880D42AA6806400B31074 /* ProfileButtons.swift */; };
 		AAC11FCE2A87BD1D001669B4 /* SignUpView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAC11FCD2A87BD1D001669B4 /* SignUpView.swift */; };
+		AACD75212B126B43003210D2 /* SearchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AACD75202B126B43003210D2 /* SearchView.swift */; };
+		AACD75232B127B46003210D2 /* SearchUserService.swift in Sources */ = {isa = PBXBuildFile; fileRef = AACD75222B127B46003210D2 /* SearchUserService.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -118,6 +120,8 @@
 		AAA880D22AA669CF00B31074 /* ProfileVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileVM.swift; sourceTree = "<group>"; };
 		AAA880D42AA6806400B31074 /* ProfileButtons.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfileButtons.swift; sourceTree = "<group>"; };
 		AAC11FCD2A87BD1D001669B4 /* SignUpView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpView.swift; sourceTree = "<group>"; };
+		AACD75202B126B43003210D2 /* SearchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchView.swift; sourceTree = "<group>"; };
+		AACD75222B127B46003210D2 /* SearchUserService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchUserService.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -153,6 +157,7 @@
 				AA3DE8022A8D75DC00B070B5 /* AuthService.swift */,
 				AA3DE8092A8D9F8100B070B5 /* PostService.swift */,
 				AAA880C92AA4FC1F00B31074 /* FollowService.swift */,
+				AACD75222B127B46003210D2 /* SearchUserService.swift */,
 			);
 			path = Service;
 			sourceTree = "<group>";
@@ -284,6 +289,7 @@
 		AA91E8CB2A86E93F00C901EE /* View */ = {
 			isa = PBXGroup;
 			children = (
+				AACD751F2B126B2F003210D2 /* Search */,
 				AAA880CB2AA6133A00B31074 /* Home */,
 				AA4E18722A9FE17A002F3A09 /* MainTab */,
 				AA325E472A8AC1FB00BDF1BC /* Login_SignUp */,
@@ -362,6 +368,14 @@
 			path = Home;
 			sourceTree = "<group>";
 		};
+		AACD751F2B126B2F003210D2 /* Search */ = {
+			isa = PBXGroup;
+			children = (
+				AACD75202B126B43003210D2 /* SearchView.swift */,
+			);
+			path = Search;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -397,7 +411,7 @@
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
 				LastSwiftUpdateCheck = 1430;
-				LastUpgradeCheck = 1430;
+				LastUpgradeCheck = 1500;
 				TargetAttributes = {
 					AA91E8B12A86AAE300C901EE = {
 						CreatedOnToolsVersion = 14.3.1;
@@ -471,6 +485,7 @@
 				AAA880CA2AA4FC1F00B31074 /* FollowService.swift in Sources */,
 				AA3DE8102A8DB05E00B070B5 /* Username.swift in Sources */,
 				AA3DE8122A8EC74300B070B5 /* EditProfileView.swift in Sources */,
+				AACD75232B127B46003210D2 /* SearchUserService.swift in Sources */,
 				AA325E562A8C22F700BDF1BC /* NewPostDetail.swift in Sources */,
 				AA325E402A8A955200BDF1BC /* PostGrid.swift in Sources */,
 				AA7F96832A898097000DD8C2 /* ProfilePicture.swift in Sources */,
@@ -481,6 +496,7 @@
 				AA325E4B2A8ADDB200BDF1BC /* NewPostView.swift in Sources */,
 				AA3DE8182A8EF8AF00B070B5 /* ImageError.swift in Sources */,
 				AAA880D52AA6806400B31074 /* ProfileButtons.swift in Sources */,
+				AACD75212B126B43003210D2 /* SearchView.swift in Sources */,
 				AAA880C22AA2342F00B31074 /* UserListView.swift in Sources */,
 				AA3DE8012A8D619400B070B5 /* User.swift in Sources */,
 				AAA880BF2AA22EB400B31074 /* MainPageVM.swift in Sources */,
@@ -533,6 +549,7 @@
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_NO_COMMON_BLOCKS = YES;
@@ -575,6 +592,7 @@
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -624,6 +642,7 @@
 				DEBUG_INFORMATION_FORMAT = dwarf;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_DYNAMIC_NO_PIC = NO;
 				GCC_NO_COMMON_BLOCKS = YES;
@@ -684,6 +703,7 @@
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
 				GCC_C_LANGUAGE_STANDARD = gnu11;
 				GCC_NO_COMMON_BLOCKS = YES;
 				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
@@ -719,6 +739,7 @@
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
@@ -749,6 +770,7 @@
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				IPHONEOS_DEPLOYMENT_TARGET = 17.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",

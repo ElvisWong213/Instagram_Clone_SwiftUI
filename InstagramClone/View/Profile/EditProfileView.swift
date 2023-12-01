@@ -60,7 +60,7 @@ struct EditProfileView: View {
         .onAppear() {
             initialUserInfo()
         }
-        .onChange(of: selectedImage) { _ in
+        .onChange(of: selectedImage) {
             Task {
                 await convertSelectedImage()
             }

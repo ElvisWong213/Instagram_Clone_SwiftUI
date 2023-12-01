@@ -45,11 +45,11 @@ struct PhotoThumbnailView: View {
                 ProgressView()
             }
         }
-        .onChange(of: assetLocalId, perform: { newValue in
+        .onChange(of: assetLocalId) {
             Task {
                 await loadImageAsset()
             }
-        })
+        }
         .task() {
             await loadImageAsset()
         }

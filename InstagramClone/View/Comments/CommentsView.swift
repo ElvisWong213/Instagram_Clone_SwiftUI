@@ -40,7 +40,7 @@ struct CommentsView: View {
                             )
                         Button {
                             do {
-                                post = try PostService().leaveComment(comment: myComment, post: post)
+                                post = try PostService.leaveComment(comment: myComment, post: post)
                                 myComment.removeAll()
                             } catch {
                                 showAlert = true

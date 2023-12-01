@@ -16,7 +16,7 @@ struct MainTabView: View {
             HomeView()
                 .tabItem { Image(systemName: "house") }
                 .tag(1)
-            Text("Tab Content 2")
+            SearchView()
                 .tabItem { Image(systemName: "magnifyingglass") }
                 .tag(2)
             Text("")
@@ -29,13 +29,13 @@ struct MainTabView: View {
                 .tabItem { Image(systemName: "person.crop.circle") }
                 .tag(5)
         }
-        .onChange(of: mainPageVM.HomeViewSelection, perform: { newValue in
+        .onChange(of: mainPageVM.HomeViewSelection) { oldValue, newValue in
             if newValue == 3 {
                 vm.showSheet = true
             } else {
                 vm.previousSelection = mainPageVM.HomeViewSelection
             }
-        })
+        }
         .tabViewStyle(.automatic)
         .sheet(isPresented: $vm.showSheet, onDismiss: {
             mainPageVM.HomeViewSelection = vm.previousSelection

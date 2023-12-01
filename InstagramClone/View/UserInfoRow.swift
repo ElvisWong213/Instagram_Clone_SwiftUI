@@ -26,9 +26,9 @@ struct UserInfoRow: View {
                     Button {
                         Task {
                             if followState == .notFollowing {
-                                followState = await FollowService().followingUser(targetId: user.id)
+                                followState = await FollowService.followingUser(targetId: user.id)
                             } else if followState == .following {
-                                followState = await FollowService().unfollowingUser(targetId: user.id)
+                                followState = await FollowService.unfollowingUser(targetId: user.id)
                             }
                         }
                     } label: {

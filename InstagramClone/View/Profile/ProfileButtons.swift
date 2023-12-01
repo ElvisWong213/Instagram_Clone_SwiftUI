@@ -30,9 +30,9 @@ struct ProfileButtons: View {
                 Button {
                     Task {
                         if followState == .notFollowing {
-                            followState = await FollowService().followingUser(targetId: userId)
+                            followState = await FollowService.followingUser(targetId: userId)
                         } else if followState == .following {
-                            followState = await FollowService().unfollowingUser(targetId: userId)
+                            followState = await FollowService.unfollowingUser(targetId: userId)
                         }
                     }
                     

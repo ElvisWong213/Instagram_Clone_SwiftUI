@@ -11,7 +11,7 @@ import FirebaseFirestoreSwift
 import FirebaseStorage
 
 class PostService{
-    func uploadPost(caption: String, image: UIImage) throws {
+    static func uploadPost(caption: String, image: UIImage) throws {
         guard let data = image.jpegData(compressionQuality: 0.8) else {
             throw ImageError.ConvertFail
         }
@@ -42,7 +42,7 @@ class PostService{
         }
     }
     
-    func fetchPosts(userId: String) async -> [Post] {
+    static func fetchPosts(userId: String) async -> [Post] {
         var posts: [Post] = []
         do {
             let query: Query = Firestore.firestore().collection("posts").order(by: "date", descending: true).whereField("createrID", isEqualTo: userId)
@@ -53,7 +53,7 @@ class PostService{
         return posts
     }
     
-    func fetchCurrentUserPosts() async -> [Post] {
+    static func fetchCurrentUserPosts() async -> [Post] {
         guard let userId = AuthService.shared.userSession?.uid else {
             return []
         }
@@ -61,7 +61,7 @@ class PostService{
     }
     
     // MARK: - Comment
-    private func constructComment(comment: String) throws -> Comment {
+    private static func constructComment(comment: String) throws -> Comment {
         guard let userID = AuthService.shared.userSession?.uid else {
             print("DEBUG - Fail to construct comment")
             throw UserError.UnableGetUserData
@@ -69,7 +69,7 @@ class PostService{
         return Comment(userID: userID, message: comment, date: Timestamp())
     }
     
-    func leaveComment(comment: String, post: Post) throws -> Post {
+    static func leaveComment(comment: String, post: Post) throws -> Post {
         let newComment = try constructComment(comment: comment)
         var bufferPost = post
         bufferPost.comments.insert(newComment, at: bufferPost.comments.count)
@@ -84,7 +84,7 @@ class PostService{
     }
     
     // MARK: - Like
-    func leaveLike(post: Post) throws -> Post {
+    static func leaveLike(post: Post) throws -> Post {
         guard let userID = AuthService.shared.userSession?.uid else {
             throw UserError.UnableGetUserData
         }
@@ -99,7 +99,7 @@ class PostService{
         return bufferPost
     }
     
-    func removeLike(post: Post) throws -> Post {
+    static func removeLike(post: Post) throws -> Post {
         guard let userID = AuthService.shared.userSession?.uid else {
             throw UserError.UnableGetUserData
         }

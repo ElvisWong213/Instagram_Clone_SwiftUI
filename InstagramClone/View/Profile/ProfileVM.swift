@@ -19,7 +19,7 @@ class ProfileVM: ObservableObject {
     @MainActor
     func fetchData(userId: String) async {
         user = try? await authService.fetchUserData(userId: userId)
-        posts = await PostService().fetchPosts(userId: userId)
+        posts = await PostService.fetchPosts(userId: userId)
     }
     
     func checkIsFollowing(targetId: String) -> FollowState {

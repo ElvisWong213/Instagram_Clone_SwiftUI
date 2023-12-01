@@ -17,13 +17,13 @@ struct MainPageView: View {
                 .environmentObject(vm)
             MessageView()
         }
-        .onChange(of: vm.HomeViewSelection, perform: { newValue in
+        .onChange(of: vm.HomeViewSelection) { oldValue, newValue in
             if newValue == 1 {
                 vm.isLock = false
             } else {
                 vm.isLock = true
             }
-        })
+        }
         .animation(.default, value: vm.MainTabSelection)
     }
 }

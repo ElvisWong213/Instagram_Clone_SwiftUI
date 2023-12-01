@@ -81,7 +81,7 @@ extension NewPostDetail {
             return
         }
         do {
-            try PostService().uploadPost(caption: caption, image: image)
+            try PostService.uploadPost(caption: caption, image: image)
         } catch {
             errorMessage = error.localizedDescription
             showAlert = true

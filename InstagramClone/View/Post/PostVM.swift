@@ -29,7 +29,7 @@ class PostVM: ObservableObject {
         self.showAlert = false
     }
     
-    func fetchUserData(postData: Post) async {
+    private func fetchUserData(postData: Post) async {
         let userID = postData.createrID
         do {
             let doc = try await Firestore.firestore().collection("users").document(userID).getDocument()
@@ -53,9 +53,9 @@ class PostVM: ObservableObject {
         var bufferPostData = postData
         do {
             if isLike {
-                bufferPostData = try postService.removeLike(post: postData)
+                bufferPostData = try PostService.removeLike(post: postData)
             } else {
-                bufferPostData = try postService.leaveLike(post: postData)
+                bufferPostData = try PostService.leaveLike(post: postData)
             }
             isLike.toggle()
         } catch {
