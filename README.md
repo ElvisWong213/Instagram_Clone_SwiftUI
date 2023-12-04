@@ -3,6 +3,7 @@ Build Instagram by using SwiftUI and Firebase
 
 ## TODO
 - [ ] Reel
+- [ ] Story
 - [ ] Chat
 - [ ] Video recording and photo capture function
 - [ ] Improve upload UI
