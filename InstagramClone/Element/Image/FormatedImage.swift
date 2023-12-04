@@ -7,11 +7,14 @@
 
 import SwiftUI
 
-struct FormatedImage: View {
-    private let imageLocation: ImageSource
+struct FormatedImage<Content: View>: View {
+    private let imageLocation: ImageSource?
+    @ViewBuilder private let placeholder: () -> Content
     
-    init(imageLocation: ImageSource) {
+    init(imageLocation: ImageSource?, @ViewBuilder placeholder: @escaping () -> Content =
+         {Color.gray}) {
         self.imageLocation = imageLocation
+        self.placeholder = placeholder
     }
     
     var body: some View {
@@ -24,7 +27,7 @@ struct FormatedImage: View {
                     .resizable()
                     .renderingMode(.original)
             case .failure:
-                Color.gray
+                placeholder()
             @unknown default:
                 fatalError()
             }

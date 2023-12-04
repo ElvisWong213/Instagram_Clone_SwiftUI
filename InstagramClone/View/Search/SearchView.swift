@@ -11,36 +11,13 @@ struct SearchView: View {
     @State var posts: [Post] = Post.MOCK
     @State var searchText: String = ""
     @State var searchFocused: Bool = false
-    @FocusState var isFocused: Bool
     
     @State var userList: [User] = []
     
     var body: some View {
         NavigationStack {
             VStack {
-                HStack {
-                    TextField("Search", text: $searchText)
-                        .textFieldStyle(.roundedBorder)
-                        .onTapGesture {
-                            withAnimation {
-                                searchFocused = true
-                            }
-                        }
-                        .focused($isFocused)
-                    if searchFocused {
-                        Button {
-                            withAnimation {
-                                searchFocused.toggle()
-                            }
-                            searchText = ""
-                            isFocused.toggle()
-                        } label: {
-                            Text("Cancel")
-                        }
-                        .transition(.move(edge: .trailing))
-                    }
-                }
-                .animation(.easeInOut, value: searchFocused)
+                SearchTextField(searchText: $searchText, searchFocused: $searchFocused)
                 ZStack {
                     PostGrid(posts: $posts)
                     List {
@@ -56,12 +33,22 @@ struct SearchView: View {
             }
             .padding()
         }
+        .onChange(of: searchFocused) {
+            if searchFocused == true {
+                Task {
+                    userList = await SearchUserService.searching(username: searchText)
+                }
+            }
+        }
         .onChange(of: searchText) { oldValue, newValue in
             if oldValue != newValue {
                 Task {
                     userList = await SearchUserService.searching(username: newValue)
                 }
             }
+        }
+        .task {
+            posts = await PostService.fetchSuggestPosts()
         }
     }
 }

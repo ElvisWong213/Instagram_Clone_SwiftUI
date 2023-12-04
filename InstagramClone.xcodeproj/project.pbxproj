@@ -28,6 +28,8 @@
 		AA3DE8162A8EF89600B070B5 /* ImageSource.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA3DE8152A8EF89600B070B5 /* ImageSource.swift */; };
 		AA3DE8182A8EF8AF00B070B5 /* ImageError.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA3DE8172A8EF8AF00B070B5 /* ImageError.swift */; };
 		AA3DE81B2A8F052E00B070B5 /* UserError.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA3DE81A2A8F052E00B070B5 /* UserError.swift */; };
+		AA4D8A7C2B1D3BBF0061C056 /* SearchVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA4D8A7B2B1D3BBF0061C056 /* SearchVM.swift */; };
+		AA4D8A7E2B1D3BF80061C056 /* SearchTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA4D8A7D2B1D3BF80061C056 /* SearchTextField.swift */; };
 		AA4E18712A9D4FC0002F3A09 /* Comment.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA4E18702A9D4FC0002F3A09 /* Comment.swift */; };
 		AA4E18742A9FE18B002F3A09 /* MainTabVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA4E18732A9FE18B002F3A09 /* MainTabVM.swift */; };
 		AA4E18762A9FF56E002F3A09 /* SignUpVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA4E18752A9FF56E002F3A09 /* SignUpVM.swift */; };
@@ -86,6 +88,8 @@
 		AA3DE8152A8EF89600B070B5 /* ImageSource.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageSource.swift; sourceTree = "<group>"; };
 		AA3DE8172A8EF8AF00B070B5 /* ImageError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageError.swift; sourceTree = "<group>"; };
 		AA3DE81A2A8F052E00B070B5 /* UserError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserError.swift; sourceTree = "<group>"; };
+		AA4D8A7B2B1D3BBF0061C056 /* SearchVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchVM.swift; sourceTree = "<group>"; };
+		AA4D8A7D2B1D3BF80061C056 /* SearchTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchTextField.swift; sourceTree = "<group>"; };
 		AA4E18702A9D4FC0002F3A09 /* Comment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Comment.swift; sourceTree = "<group>"; };
 		AA4E18732A9FE18B002F3A09 /* MainTabVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabVM.swift; sourceTree = "<group>"; };
 		AA4E18752A9FF56E002F3A09 /* SignUpVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpVM.swift; sourceTree = "<group>"; };
@@ -212,6 +216,7 @@
 				AAA880C42AA2347200B31074 /* TextField */,
 				AAA880C32AA2345F00B31074 /* Image */,
 				AA325E3D2A8A82A700BDF1BC /* PageView.swift */,
+				AA325E3F2A8A955200BDF1BC /* PostGrid.swift */,
 			);
 			path = Element;
 			sourceTree = "<group>";
@@ -296,7 +301,6 @@
 				AA7F968E2A89CEDE000DD8C2 /* Message */,
 				AA7F96892A89CA4D000DD8C2 /* Comments */,
 				AA7F96862A89C86C000DD8C2 /* Post */,
-				AA325E3F2A8A955200BDF1BC /* PostGrid.swift */,
 				AA3DE8062A8D9C3000B070B5 /* Profile */,
 				AAA880BD2AA22E9900B31074 /* MainPage */,
 				AAA880C12AA2342F00B31074 /* UserListView.swift */,
@@ -371,7 +375,9 @@
 		AACD751F2B126B2F003210D2 /* Search */ = {
 			isa = PBXGroup;
 			children = (
+				AA4D8A7D2B1D3BF80061C056 /* SearchTextField.swift */,
 				AACD75202B126B43003210D2 /* SearchView.swift */,
+				AA4D8A7B2B1D3BBF0061C056 /* SearchVM.swift */,
 			);
 			path = Search;
 			sourceTree = "<group>";
@@ -457,6 +463,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				AA4D8A7C2B1D3BBF0061C056 /* SearchVM.swift in Sources */,
 				AA325E542A8BECD200BDF1BC /* PhotoThumbnailView.swift in Sources */,
 				AA7F96762A8926A6000DD8C2 /* PostView.swift in Sources */,
 				AA3DE7FE2A8D5F2E00B070B5 /* InputField.swift in Sources */,
@@ -507,6 +514,7 @@
 				AA325E3E2A8A82A700BDF1BC /* PageView.swift in Sources */,
 				AA7F96882A89C883000DD8C2 /* PostVM.swift in Sources */,
 				AAA880D32AA669CF00B31074 /* ProfileVM.swift in Sources */,
+				AA4D8A7E2B1D3BF80061C056 /* SearchTextField.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

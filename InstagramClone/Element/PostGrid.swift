@@ -8,13 +8,13 @@
 import SwiftUI
 
 struct PostGrid: View {
-    let colums = [GridItem(.flexible()), GridItem(.flexible()), GridItem(.flexible())]
+    let colums = Array(repeating: GridItem(.flexible(), spacing: 1), count: 3)
     
     @Binding var posts: [Post]
     
     var body: some View {
         ScrollView {
-            LazyVGrid(columns: colums) {
+            LazyVGrid(columns: colums, spacing: 1) {
                 ForEach($posts) { $post in
                     NavigationLink {
                         PostView(postData: $post)

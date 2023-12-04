@@ -12,14 +12,11 @@ struct ProfilePicture: View {
     @State var size: CGFloat
     
     var body: some View {
-        ZStack {
-            if let imageLocation = imageLocation {
-                FormatedImage(imageLocation: imageLocation)
-                    .clipped()
-            } else {
-                Rectangle()
-                    .background(.gray)
-            }
+        FormatedImage(imageLocation: imageLocation) {
+            Image(systemName: "person.crop.circle.fill")
+                .resizable()
+//                .background(.gray)
+                .foregroundStyle(.gray)
         }
         .clipShape(Circle())
         .frame(width: size, height: size)

@@ -43,14 +43,13 @@ class PostService{
     }
     
     static func fetchPosts(userId: String) async -> [Post] {
-        var posts: [Post] = []
         do {
             let query: Query = Firestore.firestore().collection("posts").order(by: "date", descending: true).whereField("createrID", isEqualTo: userId)
-            posts = try await query.getDocuments().documents.compactMap { try $0.data(as: Post.self) }
+            return try await query.getDocuments().documents.compactMap { try $0.data(as: Post.self) }
         } catch {
             print("DEBUG - Fetch posts fail: \(error.localizedDescription)")
         }
-        return posts
+        return []
     }
     
     static func fetchCurrentUserPosts() async -> [Post] {
@@ -58,6 +57,17 @@ class PostService{
             return []
         }
         return await fetchPosts(userId: userId)
+    }
+    
+    static func fetchSuggestPosts() async -> [Post] {
+        do {
+            let query: Query = Firestore.firestore().collection("posts").whereField("id", isGreaterThanOrEqualTo: Firestore.firestore().collection("posts").document().documentID).limit(to: 25)
+            return try await query.getDocuments().documents.compactMap { try $0.data(as: Post.self) }
+        } catch {
+            print("DEBUG - Fetch posts fail: \(error.localizedDescription)")
+        }
+        return []
+        
     }
     
     // MARK: - Comment

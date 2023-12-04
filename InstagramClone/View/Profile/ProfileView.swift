@@ -83,7 +83,7 @@ struct ProfileView: View {
                 }
             }
         }
-        .sheet(isPresented: $vm.showSheet, onDismiss: {
+        .fullScreenCover(isPresented: $vm.showSheet, onDismiss: {
             Task {
                 await vm.fetchData(userId: userId)
             }

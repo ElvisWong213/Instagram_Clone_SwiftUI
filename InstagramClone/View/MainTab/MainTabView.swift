@@ -37,7 +37,7 @@ struct MainTabView: View {
             }
         }
         .tabViewStyle(.automatic)
-        .sheet(isPresented: $vm.showSheet, onDismiss: {
+        .fullScreenCover(isPresented: $vm.showSheet, onDismiss: {
             mainPageVM.HomeViewSelection = vm.previousSelection
         }) {
             NewPostView(showSheet: $vm.showSheet)

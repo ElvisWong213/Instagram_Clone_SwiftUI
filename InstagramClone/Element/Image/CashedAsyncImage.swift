@@ -8,12 +8,12 @@
 import SwiftUI
 
 struct CashedAsyncImage<Content>: View where Content: View {
-    private let source: ImageSource
+    private let source: ImageSource?
     private let scale: CGFloat
     private let transaction: Transaction
     private let content: (AsyncImagePhase) -> Content
         
-    init(source: ImageSource, scale: CGFloat = 1.0, transaction: Transaction = Transaction(), @ViewBuilder content: @escaping (AsyncImagePhase) -> Content) {
+    init(source: ImageSource?, scale: CGFloat = 1.0, transaction: Transaction = Transaction(), @ViewBuilder content: @escaping (AsyncImagePhase) -> Content) {
         self.source = source
         self.scale = scale
         self.transaction = transaction
@@ -32,7 +32,7 @@ struct CashedAsyncImage<Content>: View where Content: View {
                     cacheAndRender(phase: phase, url: url)
                 }
             }
-        case .remote(url: .none):
+        case .remote(url: .none), .none:
             content(.failure(ImageError.UrlEmpty))
         case .image(image: let image):
             content(.success(image))
