@@ -30,6 +30,8 @@
 		AA3DE81B2A8F052E00B070B5 /* UserError.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA3DE81A2A8F052E00B070B5 /* UserError.swift */; };
 		AA4D8A7C2B1D3BBF0061C056 /* SearchVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA4D8A7B2B1D3BBF0061C056 /* SearchVM.swift */; };
 		AA4D8A7E2B1D3BF80061C056 /* SearchTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA4D8A7D2B1D3BF80061C056 /* SearchTextField.swift */; };
+		AA4D8A812B1D57AF0061C056 /* ReelView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA4D8A802B1D57AF0061C056 /* ReelView.swift */; };
+		AA4D8A832B1D59A10061C056 /* ReelPlayerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA4D8A822B1D59A10061C056 /* ReelPlayerView.swift */; };
 		AA4E18712A9D4FC0002F3A09 /* Comment.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA4E18702A9D4FC0002F3A09 /* Comment.swift */; };
 		AA4E18742A9FE18B002F3A09 /* MainTabVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA4E18732A9FE18B002F3A09 /* MainTabVM.swift */; };
 		AA4E18762A9FF56E002F3A09 /* SignUpVM.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA4E18752A9FF56E002F3A09 /* SignUpVM.swift */; };
@@ -90,6 +92,8 @@
 		AA3DE81A2A8F052E00B070B5 /* UserError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserError.swift; sourceTree = "<group>"; };
 		AA4D8A7B2B1D3BBF0061C056 /* SearchVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchVM.swift; sourceTree = "<group>"; };
 		AA4D8A7D2B1D3BF80061C056 /* SearchTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchTextField.swift; sourceTree = "<group>"; };
+		AA4D8A802B1D57AF0061C056 /* ReelView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReelView.swift; sourceTree = "<group>"; };
+		AA4D8A822B1D59A10061C056 /* ReelPlayerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReelPlayerView.swift; sourceTree = "<group>"; };
 		AA4E18702A9D4FC0002F3A09 /* Comment.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Comment.swift; sourceTree = "<group>"; };
 		AA4E18732A9FE18B002F3A09 /* MainTabVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainTabVM.swift; sourceTree = "<group>"; };
 		AA4E18752A9FF56E002F3A09 /* SignUpVM.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpVM.swift; sourceTree = "<group>"; };
@@ -201,6 +205,15 @@
 			path = Error;
 			sourceTree = "<group>";
 		};
+		AA4D8A7F2B1D57A70061C056 /* Reel */ = {
+			isa = PBXGroup;
+			children = (
+				AA4D8A802B1D57AF0061C056 /* ReelView.swift */,
+				AA4D8A822B1D59A10061C056 /* ReelPlayerView.swift */,
+			);
+			path = Reel;
+			sourceTree = "<group>";
+		};
 		AA4E18722A9FE17A002F3A09 /* MainTab */ = {
 			isa = PBXGroup;
 			children = (
@@ -294,6 +307,7 @@
 		AA91E8CB2A86E93F00C901EE /* View */ = {
 			isa = PBXGroup;
 			children = (
+				AA4D8A7F2B1D57A70061C056 /* Reel */,
 				AACD751F2B126B2F003210D2 /* Search */,
 				AAA880CB2AA6133A00B31074 /* Home */,
 				AA4E18722A9FE17A002F3A09 /* MainTab */,
@@ -474,6 +488,7 @@
 				AAA880C62AA23C2100B31074 /* UserInfoRow.swift in Sources */,
 				AA7F967A2A8933E4000DD8C2 /* CommentsView.swift in Sources */,
 				AA3DE81B2A8F052E00B070B5 /* UserError.swift in Sources */,
+				AA4D8A832B1D59A10061C056 /* ReelPlayerView.swift in Sources */,
 				AAC11FCE2A87BD1D001669B4 /* SignUpView.swift in Sources */,
 				AA217B082A90068500ADBE07 /* EditProfileRow.swift in Sources */,
 				AA3DE8142A8EF86700B070B5 /* Gender.swift in Sources */,
@@ -493,6 +508,7 @@
 				AA3DE8102A8DB05E00B070B5 /* Username.swift in Sources */,
 				AA3DE8122A8EC74300B070B5 /* EditProfileView.swift in Sources */,
 				AACD75232B127B46003210D2 /* SearchUserService.swift in Sources */,
+				AA4D8A812B1D57AF0061C056 /* ReelView.swift in Sources */,
 				AA325E562A8C22F700BDF1BC /* NewPostDetail.swift in Sources */,
 				AA325E402A8A955200BDF1BC /* PostGrid.swift in Sources */,
 				AA7F96832A898097000DD8C2 /* ProfilePicture.swift in Sources */,

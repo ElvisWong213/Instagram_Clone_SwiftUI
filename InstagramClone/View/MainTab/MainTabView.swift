@@ -22,7 +22,7 @@ struct MainTabView: View {
             Text("")
                 .tabItem { Image(systemName: "plus.square") }
                 .tag(3)
-            Text("Tab Content 2")
+            ReelView()
                 .tabItem { Image(systemName: "video") }
                 .tag(4)
             ProfileView(userId: vm.authService.currentUser?.id ?? "")
