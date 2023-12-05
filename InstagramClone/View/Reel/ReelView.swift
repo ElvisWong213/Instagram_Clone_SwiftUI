@@ -16,12 +16,11 @@ struct ReelView: View {
                     LazyVStack(spacing: 0) {
                         ForEach(arr, id: \.self) { i in
                             ReelPlayerView(color: i)
-                                .frame(maxWidth: .infinity)
-                                .containerRelativeFrame(.vertical, alignment: .bottom)
+                                .containerRelativeFrame(.vertical)
                         }
                     }
                 }
-                .ignoresSafeArea(.container, edges: .vertical)
+                .ignoresSafeArea(.all)
                 .scrollIndicators(.hidden)
                 .scrollTargetBehavior(.paging)
                 HStack {
