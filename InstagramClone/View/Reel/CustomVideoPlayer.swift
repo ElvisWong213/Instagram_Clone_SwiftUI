@@ -15,7 +15,6 @@ struct CustomVideoPlayer: UIViewControllerRepresentable {
     func makeUIViewController(context: Context) -> AVPlayerViewController {
         let controller = AVPlayerViewController()
         controller.player = player
-        controller.videoGravity = .resizeAspectFill
         controller.showsPlaybackControls = false
         
         NotificationCenter.default.addObserver(context.coordinator, selector: #selector(context.coordinator.restartPlayer), name: .AVPlayerItemDidPlayToEndTime, object: player?.currentItem)

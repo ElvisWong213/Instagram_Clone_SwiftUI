@@ -14,24 +14,19 @@ struct ReelPlayerView: View {
     @State var player: AVPlayer?
     @State var playTime: CGFloat = .zero
 //    @State var isHold: Bool = false
+    @State var likeCounter: [Like] = []
     
     var body: some View {
         ZStack() {
             CustomVideoPlayer(player: $player)
                 .onAppear() {
                     player = AVPlayer(url: Bundle.main.url(forResource: "video", withExtension: "mp4")!)
-                    player?.isMuted = true
                     player?.play()
+                    player?.isMuted = true
                 }
                 .onDisappear() {
                     player?.pause()
                     player = nil
-                }
-                .onTapGesture {
-                    player?.isMuted.toggle()
-                }
-                .onTapGesture(count: 2) {
-                    isLike = true
                 }
 //                .onLongPressGesture(minimumDuration: .infinity, maximumDistance: .infinity, perform: {
 //                }, onPressingChanged: { pressing in
@@ -45,8 +40,22 @@ struct ReelPlayerView: View {
 //                    }
 //                }
             reelInformation()
-            timeLine()
+//            timeLine()
         }
+        .overlay(content: {
+            ZStack {
+                ForEach(likeCounter) { like in
+                    LikeAnimationView(position: like.position)
+                }
+            }
+        })
+        .onTapGesture(count: 2) { tapPosition in
+            isLike = true
+            likeCounter.append(.init(position: tapPosition))
+        }
+//        .onTapGesture {
+//            player?.isMuted.toggle()
+//        }
         .background() {
             GeometryReader { geo in
                 color.preference(key: ViewOffsetKey.self, value: geo.frame(in: .global).minY)
@@ -148,4 +157,9 @@ struct ViewOffsetKey: PreferenceKey {
     static func reduce(value: inout CGFloat, nextValue: () -> CGFloat) {
         value += nextValue()
     }
+}
+
+struct Like: Identifiable {
+    let id = UUID()
+    let position: CGPoint
 }
