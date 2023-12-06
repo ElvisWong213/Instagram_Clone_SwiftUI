@@ -15,6 +15,7 @@ struct ReelPlayerView: View {
     @State var playTime: CGFloat = .zero
 //    @State var isHold: Bool = false
     @State var likeCounter: [Like] = []
+    @State var showMuteIcon: Bool = false
     
     var body: some View {
         ZStack() {
@@ -22,7 +23,6 @@ struct ReelPlayerView: View {
                 .onAppear() {
                     player = AVPlayer(url: Bundle.main.url(forResource: "video", withExtension: "mp4")!)
                     player?.play()
-                    player?.isMuted = true
                 }
                 .onDisappear() {
                     player?.pause()
@@ -39,23 +39,45 @@ struct ReelPlayerView: View {
 //                        player?.play()
 //                    }
 //                }
-            reelInformation()
+            ReelInformationView(isLike: $isLike)
 //            timeLine()
         }
         .overlay(content: {
             ZStack {
+                // Muted indicator
+                Image(systemName: player?.isMuted ?? false ? "speaker.slash" : "speaker.wave.3")
+                    .contentTransition(.symbolEffect(.replace.downUp.byLayer))
+                    .padding()
+                    .background() {
+                        Circle()
+                            .foregroundStyle(.black.opacity(0.5))
+                    }
+                    .opacity(showMuteIcon ? 1 : 0)
+                // Like animation
                 ForEach(likeCounter) { like in
                     LikeAnimationView(position: like.position)
                 }
             }
         })
+        .onDisappear() {
+            likeCounter = []
+        }
         .onTapGesture(count: 2) { tapPosition in
             isLike = true
             likeCounter.append(.init(position: tapPosition))
         }
-//        .onTapGesture {
-//            player?.isMuted.toggle()
-//        }
+        .onTapGesture {
+            player?.isMuted.toggle()
+            withAnimation {
+                showMuteIcon = true
+            }
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1.25) {
+                withAnimation {
+                    showMuteIcon = false
+                }
+            }
+        }
+        // View scroll behaviour
         .background() {
             GeometryReader { geo in
                 color.preference(key: ViewOffsetKey.self, value: geo.frame(in: .global).minY)
@@ -67,76 +89,10 @@ struct ReelPlayerView: View {
                 player?.play()
             } else {
                 player?.pause()
+                likeCounter = []
             }
         })
         .foregroundStyle(.white)
-    }
-    
-    @ViewBuilder private func reelInformation() -> some View {
-        VStack {
-            Spacer()
-            HStack(alignment: .bottom) {
-                VStack(alignment: .leading) {
-                    HStack {
-                        ProfilePicture(imageLocation: .local(name: "Profile"), size: 40)
-                        Text("User name")
-                        Button {
-                            
-                        } label: {
-                            Text("Follow")
-                        }
-                        .buttonStyle(.bordered)
-                    }
-                    Text("Caption")
-                }
-                Spacer()
-                VStack(spacing: 25) {
-                    Button {
-                        isLike.toggle()
-                    } label: {
-                        VStack(spacing: 5) {
-                            if isLike {
-                                Image(systemName: "heart.fill")
-                                    .foregroundStyle(.red)
-                            } else {
-                                Image(systemName: "heart")
-                            }
-                            Text("50")
-                                .font(.body)
-                        }
-                    }
-                    Button {
-                        
-                    } label: {
-                        VStack(spacing: 5) {
-                            Image(systemName: "message")
-                            Text("100")
-                                .font(.body)
-                        }
-                    }
-                    Button {
-                        
-                    } label: {
-                        VStack(spacing: 5) {
-                            Image(systemName: "paperplane")
-                            Text("100")
-                                .font(.body)
-                        }
-                    }
-                    Button {
-                        
-                    } label: {
-                        Image(systemName: "ellipsis")
-                    }
-                }
-                .font(.title2)
-            }
-            .padding(.horizontal)
-            .padding(.vertical, 30)
-            .background() {
-                LinearGradient(colors: [.clear, .black.opacity(0.5)], startPoint: .top, endPoint: .bottom)
-            }
-        }
     }
     
     @ViewBuilder private func timeLine() -> some View {

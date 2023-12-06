@@ -8,23 +8,26 @@
 import SwiftUI
 
 struct ReelView: View {
-    let arr: [Color] = [.yellow, .red, .blue, .green, .yellow, .red, .blue, .green, .yellow, .red, .blue, .green]
+    let arr: [Color] = [.yellow, .red, .blue, .green]
+    
     var body: some View {
-        GeometryReader { _ in
+        GeometryReader { geo in
             ZStack(alignment: .top) {
-                ScrollView(.vertical) {
+                ScrollView {
                     LazyVStack(spacing: 0) {
                         ForEach(arr, id: \.self) { i in
                             ReelPlayerView(color: i)
-                                .containerRelativeFrame(.vertical)
+                                .id(i)
+                                .frame(minHeight: geo.size.height)
+                                .containerRelativeFrame(.vertical, alignment: .center)
                         }
                     }
                 }
                 .ignoresSafeArea(.all)
-                .scrollIndicators(.hidden)
                 .scrollTargetBehavior(.paging)
+                .scrollIndicators(.hidden)
                 HStack {
-                    Text("Reel")
+                    Text("Reels")
                         .font(.title)
                         .bold()
                     Spacer()
@@ -34,6 +37,7 @@ struct ReelView: View {
                 .foregroundStyle(.white)
                 .padding()
             }
+            .frame(height: geo.size.height)
         }
         .background(.black)
     }
