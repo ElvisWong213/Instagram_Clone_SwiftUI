@@ -45,6 +45,8 @@
 		AA7F968D2A89CB54000DD8C2 /* FormatedImage.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA7F968C2A89CB54000DD8C2 /* FormatedImage.swift */; };
 		AA7F96902A89CF14000DD8C2 /* Chat.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA7F968F2A89CF14000DD8C2 /* Chat.swift */; };
 		AA7F96922A89D165000DD8C2 /* ChatRoom.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA7F96912A89D165000DD8C2 /* ChatRoom.swift */; };
+		AA85C8FE2B21317800C13C8B /* CustomTabView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA85C8FD2B21317800C13C8B /* CustomTabView.swift */; };
+		AA85C9012B21363400C13C8B /* TabBarItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA85C9002B21363400C13C8B /* TabBarItem.swift */; };
 		AA91E8B62A86AAE300C901EE /* InstagramCloneApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA91E8B52A86AAE300C901EE /* InstagramCloneApp.swift */; };
 		AA91E8B82A86AAE300C901EE /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA91E8B72A86AAE300C901EE /* ContentView.swift */; };
 		AA91E8BA2A86AAE500C901EE /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = AA91E8B92A86AAE500C901EE /* Assets.xcassets */; };
@@ -105,6 +107,8 @@
 		AA7F968C2A89CB54000DD8C2 /* FormatedImage.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FormatedImage.swift; sourceTree = "<group>"; };
 		AA7F968F2A89CF14000DD8C2 /* Chat.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Chat.swift; sourceTree = "<group>"; };
 		AA7F96912A89D165000DD8C2 /* ChatRoom.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChatRoom.swift; sourceTree = "<group>"; };
+		AA85C8FD2B21317800C13C8B /* CustomTabView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CustomTabView.swift; sourceTree = "<group>"; };
+		AA85C9002B21363400C13C8B /* TabBarItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TabBarItem.swift; sourceTree = "<group>"; };
 		AA91E8B22A86AAE300C901EE /* InstagramClone.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = InstagramClone.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		AA91E8B52A86AAE300C901EE /* InstagramCloneApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InstagramCloneApp.swift; sourceTree = "<group>"; };
 		AA91E8B72A86AAE300C901EE /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -169,6 +173,7 @@
 		AA3DE7FF2A8D618B00B070B5 /* Model */ = {
 			isa = PBXGroup;
 			children = (
+				AA85C8FF2B21362300C13C8B /* MainTab */,
 				AA3DE8192A8EF8BA00B070B5 /* Error */,
 				AA3DE8002A8D619400B070B5 /* User.swift */,
 				AA3DE80B2A8DA9C800B070B5 /* Post.swift */,
@@ -206,6 +211,7 @@
 			children = (
 				AA7F966F2A891BDD000DD8C2 /* MainTabView.swift */,
 				AA4E18732A9FE18B002F3A09 /* MainTabVM.swift */,
+				AA85C8FD2B21317800C13C8B /* CustomTabView.swift */,
 			);
 			path = MainTab;
 			sourceTree = "<group>";
@@ -248,6 +254,14 @@
 				AA7F96912A89D165000DD8C2 /* ChatRoom.swift */,
 			);
 			path = Message;
+			sourceTree = "<group>";
+		};
+		AA85C8FF2B21362300C13C8B /* MainTab */ = {
+			isa = PBXGroup;
+			children = (
+				AA85C9002B21363400C13C8B /* TabBarItem.swift */,
+			);
+			path = MainTab;
 			sourceTree = "<group>";
 		};
 		AA91E8A92A86AAE300C901EE = {
@@ -468,6 +482,7 @@
 				AA7F96762A8926A6000DD8C2 /* PostView.swift in Sources */,
 				AA3DE7FE2A8D5F2E00B070B5 /* InputField.swift in Sources */,
 				AA4E18742A9FE18B002F3A09 /* MainTabVM.swift in Sources */,
+				AA85C8FE2B21317800C13C8B /* CustomTabView.swift in Sources */,
 				AAA880D12AA6217A00B31074 /* FollowState.swift in Sources */,
 				AA7F96802A898028000DD8C2 /* ProfileView.swift in Sources */,
 				AAA880CD2AA6135700B31074 /* HomeView.swift in Sources */,
@@ -510,6 +525,7 @@
 				AA91E8B62A86AAE300C901EE /* InstagramCloneApp.swift in Sources */,
 				AA3DE8162A8EF89600B070B5 /* ImageSource.swift in Sources */,
 				AA3DE80A2A8D9F8100B070B5 /* PostService.swift in Sources */,
+				AA85C9012B21363400C13C8B /* TabBarItem.swift in Sources */,
 				AA3DE80C2A8DA9C800B070B5 /* Post.swift in Sources */,
 				AA325E3E2A8A82A700BDF1BC /* PageView.swift in Sources */,
 				AA7F96882A89C883000DD8C2 /* PostVM.swift in Sources */,

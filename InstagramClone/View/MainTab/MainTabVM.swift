@@ -8,13 +8,8 @@
 import Foundation
 
 class MainTabVM: ObservableObject {
-    @Published var previousSelection: Int
-    @Published var showSheet: Bool
+    @Published var previousSelection: TabBarItem = .Home
+    @Published var showSheet: Bool = false
     
     let authService = AuthService.shared
-    
-    init() {
-        self.previousSelection = 1
-        self.showSheet = false
-    }
 }

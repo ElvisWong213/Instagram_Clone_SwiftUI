@@ -42,7 +42,7 @@ struct HomeView: View {
                 }
                 ToolbarItem {
                     Button {
-                        mainPageVM.MainTabSelection = 2
+                        mainPageVM.MainPageSelection = 2
                     } label: {
                         Image(systemName: "message")
                     }
