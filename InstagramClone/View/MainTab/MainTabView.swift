@@ -11,39 +11,42 @@ struct MainTabView: View {
     @EnvironmentObject var mainPageVM: MainPageVM
     @StateObject var vm = MainTabVM()
     
+    init() {
+        UITabBar.appearance().isHidden = true
+    }
+    
     var body: some View {
-        TabView(selection: $mainPageVM.HomeViewSelection) {
-            HomeView()
-                .tabItem { Image(systemName: "house") }
-                .tag(1)
-            SearchView()
-                .tabItem { Image(systemName: "magnifyingglass") }
-                .tag(2)
-            Text("")
-                .tabItem { Image(systemName: "plus.square") }
-                .tag(3)
-            ReelView()
-                .tabItem { Image(systemName: "video") }
-                .tag(4)
-            ProfileView(userId: vm.authService.currentUser?.id ?? "")
-                .tabItem { Image(systemName: "person.crop.circle") }
-                .tag(5)
+        VStack {
+            TabView(selection: $mainPageVM.TabBarSelection) {
+                HomeView()
+                    .tag(TabBarItem.Home)
+                SearchView()
+                    .tag(TabBarItem.Search)
+                Text("")
+                    .tag(TabBarItem.Add)
+                ReelView()
+                    .tag(TabBarItem.Reels)
+                ProfileView(userId: vm.authService.currentUser?.id ?? "")
+                    .tag(TabBarItem.Profile)
+            }
+            CustomTabView(selectedItem: $mainPageVM.TabBarSelection)
         }
-        .onChange(of: mainPageVM.HomeViewSelection) { oldValue, newValue in
-            if newValue == 3 {
+        .onChange(of: mainPageVM.TabBarSelection) { oldValue, newValue in
+            if newValue == TabBarItem.Add {
                 vm.showSheet = true
             } else {
-                vm.previousSelection = mainPageVM.HomeViewSelection
+                vm.previousSelection = mainPageVM.TabBarSelection
             }
         }
         .tabViewStyle(.automatic)
         .fullScreenCover(isPresented: $vm.showSheet, onDismiss: {
-            mainPageVM.HomeViewSelection = vm.previousSelection
+            mainPageVM.TabBarSelection = vm.previousSelection
         }) {
             NewPostView(showSheet: $vm.showSheet)
         }
     }
 }
+
 
 struct MainTabView_Previews: PreviewProvider {
     static var previews: some View {

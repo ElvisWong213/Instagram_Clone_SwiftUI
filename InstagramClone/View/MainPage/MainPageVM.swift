@@ -8,7 +8,7 @@
 import Foundation
 
 class MainPageVM: ObservableObject {
-    @Published var MainTabSelection = 1
-    @Published var HomeViewSelection = 1
+    @Published var MainPageSelection = 1
+    @Published var TabBarSelection: TabBarItem = .Home
     @Published var isLock = false
 }

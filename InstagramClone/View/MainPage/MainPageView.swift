@@ -11,20 +11,20 @@ struct MainPageView: View {
     @StateObject var vm = MainPageVM()
     
     var body: some View {
-        PageView(pageCount: 3, currentIndex: $vm.MainTabSelection, isLock: vm.isLock) {
+        PageView(pageCount: 3, currentIndex: $vm.MainPageSelection, isLock: vm.isLock) {
             Text("Camera")
             MainTabView()
                 .environmentObject(vm)
             MessageView()
         }
-        .onChange(of: vm.HomeViewSelection) { oldValue, newValue in
-            if newValue == 1 {
+        .onChange(of: vm.TabBarSelection) { oldValue, newValue in
+            if newValue == .Home {
                 vm.isLock = false
             } else {
                 vm.isLock = true
             }
         }
-        .animation(.default, value: vm.MainTabSelection)
+        .animation(.default, value: vm.MainPageSelection)
     }
 }
 
