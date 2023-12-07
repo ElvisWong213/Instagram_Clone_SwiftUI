@@ -8,7 +8,7 @@
 import SwiftUI
 
 struct SearchView: View {
-    @State var posts: [Post] = Post.MOCK
+    @State var posts: [Post] = []
     @State var searchText: String = ""
     @State var searchFocused: Bool = false
     

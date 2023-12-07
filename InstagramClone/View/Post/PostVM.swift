@@ -49,19 +49,18 @@ class PostVM: ObservableObject {
         }
     }
     
-    func likePost(postData: Post) -> Post {
-        var bufferPostData = postData
+    func likePost(postData: inout Post) {
         do {
             if isLike {
-                bufferPostData = try PostService.removeLike(post: postData)
+                let userId = try PostService.removeLike(id: postData.id, isReel: false)
+                postData.likes.removeAll { $0 == userId }
             } else {
-                bufferPostData = try PostService.leaveLike(post: postData)
+                postData.likes.append(try PostService.leaveLike(id: postData.id, isReel: false))
             }
             isLike.toggle()
         } catch {
             showAlert = true
         }
-        return bufferPostData
     }
     
     func initializePost(postData: Post) async {

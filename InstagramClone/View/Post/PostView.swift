@@ -42,7 +42,7 @@ struct PostView: View {
             .scaledToFit()
             HStack {
                 Button {
-                    postData = vm.likePost(postData: postData)
+                    vm.likePost(postData: &postData)
                 } label: {
                     Image(systemName: vm.isLike ? "heart.fill" : "heart")
                         .foregroundColor(.red)
@@ -90,9 +90,7 @@ struct PostView: View {
         }
         .alert("Unable to like or remove like from the post", isPresented: $vm.showAlert) {}
         .sheet(isPresented: $vm.showComment) {
-            CommentsView(post: $postData)
-                .presentationDetents([.large, .medium])
-                .presentationDragIndicator(.visible)
+            CommentsView(comments: $postData.comments, id: postData.id)
         }
         .task {
             await vm.initializePost(postData: postData)

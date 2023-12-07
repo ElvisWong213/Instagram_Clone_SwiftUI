@@ -11,14 +11,15 @@ struct CommentsView: View {
     @EnvironmentObject var authService: AuthService
     @State var showAlert = false
     @State var myComment = ""
-    @Binding var post: Post
+    @Binding var comments: [Comment]
+    let id: String
     
     var body: some View {
         NavigationStack {
             VStack {
-                if !post.comments.isEmpty {
+                if !comments.isEmpty {
                     List {
-                        ForEach(post.comments, id: \.self) { comment in
+                        ForEach(comments, id: \.self) { comment in
                             SingleCommentView(userId: comment.userID, commentDate: comment.date.dateValue().description, message: comment.message)
                         }
                     }
@@ -40,7 +41,7 @@ struct CommentsView: View {
                             )
                         Button {
                             do {
-                                post = try PostService.leaveComment(comment: myComment, post: post)
+                                comments.append(try PostService.leaveComment(comment: myComment, id: id, isReel: false))
                                 myComment.removeAll()
                             } catch {
                                 showAlert = true
@@ -68,11 +69,13 @@ struct CommentsView: View {
                 }
             }
         }
+            .presentationDetents([.large, .medium])
+            .presentationDragIndicator(.visible)
     }
 }
 
 struct CommentsView_Previews: PreviewProvider {
     static var previews: some View {
-        CommentsView(post: .constant(Post.MOCK[0]))
+        CommentsView(comments: .constant(Comment.MOCK), id: "")
     }
 }

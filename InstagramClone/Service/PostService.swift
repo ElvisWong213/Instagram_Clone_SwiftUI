@@ -80,51 +80,70 @@ class PostService{
         return Comment(userID: userID, message: comment, date: Timestamp())
     }
     
-    static func leaveComment(comment: String, post: Post) throws -> Post {
+    static func leaveComment(comment: String, id: String, isReel: Bool) throws -> Comment {
         let newComment = try constructComment(comment: comment)
-        var bufferPost = post
-        bufferPost.comments.insert(newComment, at: bufferPost.comments.count)
         let bufferNewComment = try Firestore.Encoder().encode(newComment)
-        let docRef = Firestore.firestore().collection("posts").document(post.id)
-        docRef.updateData(["comments" : FieldValue.arrayUnion([bufferNewComment])]) { error in
-            if let error = error {
-                print("DEBUG - Unable to update data: \(error)")
+        if isReel {
+            let docRef = Firestore.firestore().collection("reels").document(id)
+            docRef.updateData(["comments" : FieldValue.arrayUnion([bufferNewComment])]) { error in
+                if let error = error {
+                    print("DEBUG - Unable to update data: \(error)")
+                }
+            }
+        } else {
+            let docRef = Firestore.firestore().collection("posts").document(id)
+            docRef.updateData(["comments" : FieldValue.arrayUnion([bufferNewComment])]) { error in
+                if let error = error {
+                    print("DEBUG - Unable to update data: \(error)")
+                }
             }
         }
-        return bufferPost
+        return newComment
     }
     
     // MARK: - Like
-    static func leaveLike(post: Post) throws -> Post {
+    static func leaveLike(id: String, isReel: Bool) throws -> String {
         guard let userID = AuthService.shared.userSession?.uid else {
             throw UserError.UnableGetUserData
         }
-        let docRef = Firestore.firestore().collection("posts").document(post.id)
-        docRef.updateData(["likes" : FieldValue.arrayUnion([userID])]) { error in
-            if let error = error {
-                print("DEBUG - Unable to update data: \(error)")
+        if isReel {
+            let docRef = Firestore.firestore().collection("reels").document(id)
+            docRef.updateData(["likes" : FieldValue.arrayUnion([userID])]) { error in
+                if let error = error {
+                    print("DEBUG - Unable to update data: \(error)")
+                }
+            }
+        } else {
+            let docRef = Firestore.firestore().collection("posts").document(id)
+            docRef.updateData(["likes" : FieldValue.arrayUnion([userID])]) { error in
+                if let error = error {
+                    print("DEBUG - Unable to update data: \(error)")
+                }
             }
         }
-        var bufferPost = post
-        bufferPost.likes.insert(userID, at: bufferPost.likes.count)
-        return bufferPost
+        return userID
     }
     
-    static func removeLike(post: Post) throws -> Post {
+    static func removeLike(id: String, isReel: Bool) throws -> String {
         guard let userID = AuthService.shared.userSession?.uid else {
             throw UserError.UnableGetUserData
         }
-        let docRef = Firestore.firestore().collection("posts").document(post.id)
-        docRef.updateData(["likes" : FieldValue.arrayRemove([userID])]) { error in
-            if let error = error {
-                print("DEBUG - Unable to update data: \(error)")
+        if isReel {
+            let docRef = Firestore.firestore().collection("reels").document(id)
+            docRef.updateData(["likes" : FieldValue.arrayRemove([userID])]) { error in
+                if let error = error {
+                    print("DEBUG - Unable to update data: \(error)")
+                }
+            }
+            
+        } else {
+            let docRef = Firestore.firestore().collection("posts").document(id)
+            docRef.updateData(["likes" : FieldValue.arrayRemove([userID])]) { error in
+                if let error = error {
+                    print("DEBUG - Unable to update data: \(error)")
+                }
             }
         }
-        var bufferPost = post
-        guard let elementIndex = bufferPost.likes.firstIndex(of: userID) else {
-            return bufferPost
-        }
-        bufferPost.likes.remove(at: elementIndex)
-        return bufferPost
+        return userID
     }
 }

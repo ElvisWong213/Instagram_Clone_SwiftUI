@@ -8,7 +8,7 @@
 import Foundation
 import Firebase
 
-struct Post: Codable, Identifiable {
+struct Post: PostProtocol {
     let id: String
     var likes: [String] = []
     var comments: [Comment] = []

@@ -9,6 +9,7 @@ import SwiftUI
 
 struct ReelInformationView: View {
     @Binding var isLike: Bool
+    @State var showComment: Bool = false
     
     var body: some View {
         VStack {
@@ -44,7 +45,7 @@ struct ReelInformationView: View {
                         }
                     }
                     Button {
-                        
+                        showComment.toggle()
                     } label: {
                         VStack(spacing: 5) {
                             Image(systemName: "message")
@@ -75,7 +76,9 @@ struct ReelInformationView: View {
                 LinearGradient(colors: [.clear, .black.opacity(0.5)], startPoint: .top, endPoint: .bottom)
             }
         }
-
+        .sheet(isPresented: $showComment) {
+            CommentsView(comments: .constant(Comment.MOCK), id: "")
+        }
     }
 }
 
