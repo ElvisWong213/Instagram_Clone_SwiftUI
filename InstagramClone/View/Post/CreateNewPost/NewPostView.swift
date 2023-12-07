@@ -48,6 +48,7 @@ struct NewPostView: View {
                                 }
                             }
                         }
+                        .padding()
                     }
                 }
             }
