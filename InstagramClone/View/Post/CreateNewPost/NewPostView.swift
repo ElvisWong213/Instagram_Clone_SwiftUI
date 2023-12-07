@@ -73,13 +73,14 @@ struct NewPostView: View {
         }
         .onAppear() {
             requestForAuthorizationIfNecessary()
+            selectedFirstImage()
         }
         .alert("This app requires photo library access to show your photos", isPresented: $showError) {}
     }
 }
 
 extension NewPostView {
-    func requestForAuthorizationIfNecessary() {
+    private func requestForAuthorizationIfNecessary() {
         guard photoLibraryService.authorizationStatus != .authorized else {
             return
         }
@@ -88,6 +89,12 @@ extension NewPostView {
                 return
             }
             showError = true
+        }
+    }
+    
+    private func selectedFirstImage() {
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.1) {
+            selectedPhoto = photoLibraryService.results.first?.localIdentifier ?? ""
         }
     }
 }

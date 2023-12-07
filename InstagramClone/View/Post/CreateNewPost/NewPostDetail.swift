@@ -26,8 +26,9 @@ struct NewPostDetail: View {
                 if let image = image {
                     Image(uiImage: image)
                         .resizable()
-                        .scaledToFit()
-                        .frame(height: UIScreen.main.bounds.height / 3)
+                        .aspectRatio(contentMode: .fill)
+                        .frame(width: UIScreen.main.bounds.height / 3, height: UIScreen.main.bounds.height / 3)
+                        .clipped()
                 } else {
                     ZStack {
                         Rectangle()
@@ -38,6 +39,7 @@ struct NewPostDetail: View {
                     .scaledToFit()
                 }
                 TextField("Write a caption", text: $caption, axis: .vertical)
+                    .padding()
                 Spacer()
             }
             .navigationTitle("New Post")
