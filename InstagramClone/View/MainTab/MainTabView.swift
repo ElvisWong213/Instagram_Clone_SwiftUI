@@ -31,6 +31,7 @@ struct MainTabView: View {
             }
             CustomTabView(selectedItem: $mainPageVM.TabBarSelection)
         }
+        .ignoresSafeArea(.keyboard, edges: .bottom)
         .onChange(of: mainPageVM.TabBarSelection) { oldValue, newValue in
             if newValue == TabBarItem.Add {
                 vm.showSheet = true
