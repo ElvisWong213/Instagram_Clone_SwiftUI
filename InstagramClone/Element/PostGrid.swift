@@ -19,7 +19,7 @@ struct PostGrid: View {
                     NavigationLink {
                         PostView(postData: $post)
                     } label: {
-                        FormatedImage(imageLocation: .remote(url: URL(string: post.imagesURL[0])))
+                        FormatedImage(imageLocation: .remote(url: URL(string: post.media[0].url)))
                             .clipShape(Rectangle())
                             .aspectRatio(1, contentMode: .fill)
                     }

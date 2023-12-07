@@ -16,12 +16,14 @@ struct ReelPlayerView: View {
 //    @State var isHold: Bool = false
     @State var likeCounter: [Like] = []
     @State var showMuteIcon: Bool = false
+    @Binding var isMute: Bool
     
     var body: some View {
         ZStack() {
             CustomVideoPlayer(player: $player)
                 .onAppear() {
                     player = AVPlayer(url: Bundle.main.url(forResource: "video", withExtension: "mp4")!)
+                    player?.isMuted = isMute
                     player?.play()
                 }
                 .onDisappear() {
@@ -45,14 +47,14 @@ struct ReelPlayerView: View {
         .overlay(content: {
             ZStack {
                 // Muted indicator
-                Image(systemName: player?.isMuted ?? false ? "speaker.slash" : "speaker.wave.3")
-                    .contentTransition(.symbolEffect(.replace.downUp.byLayer))
+                Image(systemName: isMute ? "speaker.slash" : "speaker.wave.3")
                     .padding()
                     .background() {
                         Circle()
                             .foregroundStyle(.black.opacity(0.5))
                     }
                     .opacity(showMuteIcon ? 1 : 0)
+                    .animation(.snappy, value: showMuteIcon)
                 // Like animation
                 ForEach(likeCounter) { like in
                     LikeAnimationView(position: like.position)
@@ -67,13 +69,14 @@ struct ReelPlayerView: View {
             likeCounter.append(.init(position: tapPosition))
         }
         .onTapGesture {
-            player?.isMuted.toggle()
+            isMute.toggle()
+            player?.isMuted = isMute
             withAnimation {
-                showMuteIcon = true
+                showMuteIcon.toggle()
             }
-            DispatchQueue.main.asyncAfter(deadline: .now() + 1.25) {
+            DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
                 withAnimation {
-                    showMuteIcon = false
+                    showMuteIcon.toggle()
                 }
             }
         }
@@ -84,6 +87,7 @@ struct ReelPlayerView: View {
             }
         }
         .onPreferenceChange(ViewOffsetKey.self, perform: { value in
+            player?.isMuted = isMute
             let height = UIScreen.main.bounds.height
             if -value < height / 2 && value < height / 2 {
                 player?.play()
@@ -104,7 +108,7 @@ struct ReelPlayerView: View {
 }
 
 #Preview {
-    ReelPlayerView(color: .black)
+    ReelPlayerView(color: .black, isMute: .constant(false))
 }
 
 struct ViewOffsetKey: PreferenceKey {
@@ -113,9 +117,4 @@ struct ViewOffsetKey: PreferenceKey {
     static func reduce(value: inout CGFloat, nextValue: () -> CGFloat) {
         value += nextValue()
     }
-}
-
-struct Like: Identifiable {
-    let id = UUID()
-    let position: CGPoint
 }

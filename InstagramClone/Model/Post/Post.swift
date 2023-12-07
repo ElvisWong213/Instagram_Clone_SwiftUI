@@ -13,14 +13,14 @@ struct Post: Codable, Identifiable {
     var likes: [String] = []
     var comments: [Comment] = []
     let date: Timestamp
-    let imagesURL: [String]
+    let media: [PostMedia]
     var caption: String
     let createrID: String
 }
 
 extension Post {
     static var MOCK: [Post] = [
-        .init(id: UUID().uuidString, comments: Comment.MOCK, date: Timestamp(), imagesURL: ["Profile", "Profile"], caption: "Test1", createrID: ""),
-        .init(id: UUID().uuidString, comments: Comment.MOCK, date: Timestamp(), imagesURL: ["Profile"], caption: "Test2", createrID: "")
+        .init(id: UUID().uuidString, comments: Comment.MOCK, date: Timestamp(), media: [PostMedia.MOCK_IMAGE, PostMedia.MOCK_IMAGE2], caption: "Test1", createrID: ""),
+        .init(id: UUID().uuidString, comments: Comment.MOCK, date: Timestamp(), media: [PostMedia.MOCK_IMAGE], caption: "Test2", createrID: "")
     ]
 }

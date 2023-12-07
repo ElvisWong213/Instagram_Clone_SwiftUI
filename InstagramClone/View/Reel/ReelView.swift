@@ -9,6 +9,7 @@ import SwiftUI
 
 struct ReelView: View {
     let arr: [Color] = [.yellow, .red, .blue, .green]
+    @State var isMute: Bool = false
     
     var body: some View {
         GeometryReader { geo in
@@ -16,9 +17,8 @@ struct ReelView: View {
                 ScrollView {
                     LazyVStack(spacing: 0) {
                         ForEach(arr, id: \.self) { i in
-                            ReelPlayerView(color: i)
+                            ReelPlayerView(color: i, isMute: $isMute)
                                 .id(i)
-//                                .frame(minHeight: geo.size.height)
                                 .containerRelativeFrame(.vertical)
                         }
                     }

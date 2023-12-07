@@ -31,7 +31,8 @@ class PostService{
                     print("DEBUG - Download Url error: \(error?.localizedDescription ?? "")")
                     return
                 } else {
-                    let post = Post(id: postRef.documentID, date: timestamp, imagesURL: [url?.absoluteString ?? ""], caption: caption, createrID: userId)
+                    let media: PostMedia = PostMedia(type: .Image, url: url?.absoluteString ?? "")
+                    let post = Post(id: postRef.documentID, date: timestamp, media: [media], caption: caption, createrID: userId)
                     do {
                         try Firestore.firestore().collection("posts").document(postRef.documentID).setData(from: post)
                     } catch {

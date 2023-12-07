@@ -31,8 +31,8 @@ struct PostView: View {
             .padding(.horizontal)
             GeometryReader { gr in
                 TabView(selection: $vm.selectedImage) {
-                    ForEach(postData.imagesURL.indices, id: \.self) { index in
-                        FormatedImage(imageLocation: .remote(url: URL(string: postData.imagesURL[index])))
+                    ForEach(postData.media.indices, id: \.self) { index in
+                        FormatedImage(imageLocation: .remote(url: URL(string: postData.media[index].url)))
                             .tag(index)
                     }
                 }
