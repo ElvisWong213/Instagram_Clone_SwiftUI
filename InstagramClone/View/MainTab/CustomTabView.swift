@@ -17,8 +17,9 @@ struct CustomTabView: View {
                 Button {
                     selectedItem = item
                 } label: {
-                    Image(systemName: item.description)
-                        .foregroundStyle(item == selectedItem ? .blue : .primary)
+                    Image(systemName: item == selectedItem ? item.selectedIcon : item.icon)
+                        .foregroundColor(.primary)
+                        .bold(item == selectedItem && item == .Search)
                 }
                 Spacer()
             }

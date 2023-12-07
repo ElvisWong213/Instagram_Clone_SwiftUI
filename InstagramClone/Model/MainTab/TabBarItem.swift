@@ -10,7 +10,7 @@ import Foundation
 enum TabBarItem: String, CaseIterable {
     case Home, Search, Add, Reels, Profile
 
-    var description: String {
+    var icon: String {
         switch self {
         case .Home:
             "house"
@@ -23,5 +23,20 @@ enum TabBarItem: String, CaseIterable {
         case .Profile:
             "person.crop.circle"
         }
-    }    
+    } 
+    
+    var selectedIcon: String {
+        switch self {
+        case .Home:
+            "house.fill"
+        case .Search:
+            "magnifyingglass"
+        case .Add:
+            "plus.square.fill"
+        case .Reels:
+            "video.fill"
+        case .Profile:
+            "person.crop.circle.fill"
+        }
+    }
 }
