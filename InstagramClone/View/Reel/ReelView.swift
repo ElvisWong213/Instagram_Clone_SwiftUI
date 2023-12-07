@@ -18,8 +18,8 @@ struct ReelView: View {
                         ForEach(arr, id: \.self) { i in
                             ReelPlayerView(color: i)
                                 .id(i)
-                                .frame(minHeight: geo.size.height)
-                                .containerRelativeFrame(.vertical, alignment: .center)
+//                                .frame(minHeight: geo.size.height)
+                                .containerRelativeFrame(.vertical)
                         }
                     }
                 }
