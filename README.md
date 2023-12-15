@@ -7,6 +7,7 @@ Build Instagram by using SwiftUI and Firebase
 - [ ] Chat
 - [ ] Video recording and photo capture function
 - [ ] Improve upload UI
+- [ ] Login Screen
 
 ## Requirements
 - iOS 17+
