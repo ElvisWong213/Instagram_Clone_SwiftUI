@@ -1,4 +1,7 @@
 # Instagram_Clone_SwiftUI
+[!["Buy Me A Coffee"](https://www.buymeacoffee.com/assets/img/custom_images/orange_img.png)](https://www.buymeacoffee.com/ElvisWong)
+
+## About This Project 
 Build Instagram by using SwiftUI and Firebase
 
 ## TODO
@@ -28,7 +31,7 @@ Otherwise, keep the `Build Configuration` to `Emulators`
 ### Setup Emulators
 If you test it on emulators. Please follow the guide to [Setup the emulator](https://firebase.google.com/docs/emulator-suite/install_and_configure)
 
-## Firebase configuration 
+## Firebase Configuration 
 
 1. Firestore rules
 ```
